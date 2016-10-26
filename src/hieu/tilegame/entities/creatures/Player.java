@@ -5,12 +5,14 @@
  */
 package hieu.tilegame.entities.creatures;
 
+import hieu.tilegame.entities.Entity;
 import hieu.tilegame.gfx.Animation;
 import hieu.tilegame.gfx.Assets;
 import hieu.tilegame.main.Game;
 import hieu.tilegame.main.Handler;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 /**
@@ -21,6 +23,8 @@ public class Player extends Creature{
 
     //Animation
     private Animation animUp, animDown, animLeft, animRight;
+    private int direction; // 1- up, 2 - right, 3- down, 4 - left
+    
     
     public Player(Handler handler, float x, float y) {
         super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
@@ -35,6 +39,12 @@ public class Player extends Creature{
         animUp = new Animation(500, Assets.player_up);
         animLeft =new Animation(500, Assets.player_left);
         animRight = new Animation(500, Assets.player_right);
+        
+        direction = 3;
+    }
+
+    public int getDirection() {
+        return direction;
     }
 
     @Override
@@ -44,10 +54,43 @@ public class Player extends Creature{
        
        handler.getGameCamera().centerOnEntity(this); 
        
-       animDown.update();
-       animUp.update();
-       animLeft.update();
-       animRight.update();
+       //Attack
+       checkAttacks();
+    }
+    
+    private void checkAttacks(){
+        Rectangle cb = getCollisionBounds(0f, 0f);//collision Bound
+        Rectangle ar = new Rectangle(); //attack Range
+        int arSize = 20;
+        ar.width = arSize;
+        ar.height = arSize;
+        
+        if(handler.getKeyManager().hit){
+            if(this.direction == 1){ //up
+                ar.x = cb.x + cb.width/2 - arSize/2;
+                ar.y = cb.y - arSize;
+            }else if(this.direction == 2){ //right
+                ar.x = cb.x + cb.width;
+                ar.y = cb.y + cb.height/2 - arSize/2;
+            }else if(this.direction == 3){//down
+                ar.x = cb.x + cb.width/2 - arSize/2;
+                ar.y = cb.y + cb.height;
+            }else if(this.direction == 4) { //left
+                ar.x = cb.x - arSize;
+                ar.y = cb.y + cb.height/2 - arSize/2;
+            }else {
+                return;
+            }       
+        }
+        for(Entity e: handler.getMap().getEntityManager().getEntities()){
+            if(e.equals(this)){
+                continue;
+            }else if(e.getCollisionBounds(0f, 0f).intersects(ar)){
+                e.hurt(1);
+                return;
+            }
+        }
+        
     }
     
     private void getInput(){
@@ -59,15 +102,19 @@ public class Player extends Creature{
         
         if(handler.getKeyManager().up){
            yMove = -speed;
+           animUp.update();
        }
        if(handler.getKeyManager().down){
            yMove = speed;
+           animDown.update();
        }
        if(handler.getKeyManager().left){
            xMove = -speed;
+           animLeft.update();
        }
        if(handler.getKeyManager().right){
            xMove = speed;
+           animRight.update();
        }
        
        //debug
@@ -88,6 +135,7 @@ public class Player extends Creature{
         
         g.drawImage(getCurrentPlayerFrame(), (int)(x - handler.getGameCamera().getxOffset()),
                 (int) (y - handler.getGameCamera().getyOffset()), width, height, null);
+//      //debug
 //        g.setColor(Color.red);
 //        g.fillRect((int)(x + bounds.x - handler.getGameCamera().getxOffset()), 
 //                (int)(y + bounds.y - handler.getGameCamera().getyOffset()),
@@ -96,13 +144,29 @@ public class Player extends Creature{
     }
     private BufferedImage getCurrentPlayerFrame(){
         if(xMove > 0){
+            direction = 2;
             return animRight.getCurrentFrame();
         }else if(xMove < 0){
+            direction = 4;
             return animLeft.getCurrentFrame();
         }else if(yMove < 0){
+            direction = 1;
             return animUp.getCurrentFrame();
-        }else{
+        }else if(yMove > 0){
+            direction = 3;
             return animDown.getCurrentFrame();
+        }else{
+            switch(direction){
+                case 1: return animUp.getCurrentFrame();
+                case 2: return animRight.getCurrentFrame();
+                case 4: return animLeft.getCurrentFrame();
+                default: return animDown.getCurrentFrame();
+            }
         }
+    }
+
+    @Override
+    public void die() {
+        System.out.println("You lose!");
     }
 }

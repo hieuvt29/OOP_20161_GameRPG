@@ -15,10 +15,25 @@ import java.awt.Rectangle;
  * @author LOREMSUM
  */
 public abstract class Entity {
+    public static final int DEFAULT_HEALTH = 10;
+    protected int health; //every creatures has its health
+    
     protected float x, y; // every enntity need its coordinate
     protected int width, height; // and its size
     protected Handler handler; //We want every entity can access the Game instance
     protected Rectangle bounds; // bounding rectangle for every entity
+    protected boolean active = true;
+
+    public abstract void die();
+    
+    public void hurt(int amt){
+        health -= amt;
+        System.out.println(health);
+        if(health <= 0){
+            active = false;
+            die();
+        }
+    }
     
     public Entity(Handler handler, float x, float y, int width, int height){
         this.handler = handler;
@@ -26,6 +41,8 @@ public abstract class Entity {
         this.y = y;
         this.width = width;
         this.height = height;
+        
+        this.health = DEFAULT_HEALTH;
         
         bounds = new Rectangle(0,0, width, height);
     }
@@ -39,7 +56,7 @@ public abstract class Entity {
         }
         return false;
     }
-    private Rectangle getCollisionBounds(float xOffset, float yOffset){
+    public Rectangle getCollisionBounds(float xOffset, float yOffset){
         return new Rectangle((int)(x + bounds.x + xOffset), (int)(y + bounds.y + yOffset), bounds.width, bounds.height);
     }
     public float getX() {
@@ -73,6 +90,22 @@ public abstract class Entity {
     public void setHeight(int height) {
         this.height = height;
     }
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+    
     
     
     

@@ -31,6 +31,7 @@ public class EntityManager {
             return 1;
         }
     };
+    
     public EntityManager(Handler handler, Player player) {
         this.handler = handler;
         this.player = player;
@@ -42,7 +43,11 @@ public class EntityManager {
     public void update() {
         //we use original form of for loop to make sure it will not get bad when we add collision detection;
         for (int i = 0; i < entities.size(); i++) {
-            entities.get(i).update();
+            Entity e = entities.get(i);
+            e.update();
+            if(!e.isActive()){
+                entities.remove(e);
+            }
         }
         
         entities.sort(entityComparator);

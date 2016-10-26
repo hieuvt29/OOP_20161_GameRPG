@@ -5,6 +5,7 @@
  */
 package hieu.tilegame.input;
 
+import hieu.tilegame.ui.UIManager;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -17,11 +18,12 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 
     private boolean leftPressed, rightPressed;
     private float mouseX, mouseY;
-    
+    private UIManager uiManager;
     
     public MouseManager(){
         
     }
+    
     @Override
     public void mouseClicked(MouseEvent e) {
         
@@ -35,6 +37,7 @@ public class MouseManager implements MouseListener, MouseMotionListener {
         if(e.getButton() == MouseEvent.BUTTON3){
             rightPressed = true;
         }
+        
     }
     
 
@@ -46,27 +49,29 @@ public class MouseManager implements MouseListener, MouseMotionListener {
         if(e.getButton() == MouseEvent.BUTTON3){
             rightPressed = false;
         }
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
         
+        if(uiManager != null){
+            uiManager.onMouseRelease(e);
+        }
     }
 
-    @Override
-    public void mouseExited(MouseEvent e) {
-        
-    }
-
-    @Override
-    public void mouseDragged(MouseEvent e) {
-        
-    }
-
+   
     @Override
     public void mouseMoved(MouseEvent e) {
         mouseX = e.getX();
         mouseY = e.getY();
+        
+         if(uiManager != null){
+            uiManager.onMouseMove(e);
+        }
+    }
+
+    public void setUiManager(UIManager uiManager) {
+        this.uiManager = uiManager;
+    }
+
+    public UIManager getUiManager() {
+        return uiManager;
     }
 
     public boolean isLeftPressed() {
@@ -84,4 +89,19 @@ public class MouseManager implements MouseListener, MouseMotionListener {
     public boolean isRightPressed() {
         return rightPressed;
     }
+     @Override
+    public void mouseEntered(MouseEvent e) {
+        
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        
+    }
+
 }

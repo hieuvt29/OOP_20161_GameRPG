@@ -46,8 +46,8 @@ public class Game implements Runnable{
     
     
     // State
-    public State gameState;
-    public State menuState;
+    private State gameState;
+    private State menuState;
     
     
     //Input: KeyManager instance
@@ -66,6 +66,7 @@ public class Game implements Runnable{
         this.width = width;
         this.height = height;
         keyManager = new KeyManager();
+        
         mouseManager = new MouseManager();
     }
 
