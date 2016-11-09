@@ -14,9 +14,11 @@ import java.util.ArrayList;
  */
 public class Assets {
     public static BufferedImage[] player_up, player_down, player_left, player_right;
-    public static BufferedImage grass;
-    public static BufferedImage tree;
-    public static BufferedImage water;
+    public static BufferedImage grass, tree, coconut_tree, water,
+                                monster1, monster2,
+                                wood, gold, rock;
+
+    
     private static final int WIDTH = 16, HEIGHT = 16;
     
     public static void init(){
@@ -42,7 +44,25 @@ public class Assets {
         grass = tileSet.crop(WIDTH, 0, WIDTH, HEIGHT);
         tree = tileSet.crop(0, HEIGHT, WIDTH, HEIGHT);
         water = tileSet.crop(WIDTH * 2, HEIGHT, WIDTH, HEIGHT);
-      
+        
+        SpriteSheet coconut_tree_sheet = new SpriteSheet(ImagesLoader.loadImage("/res/textures/1a.png"));
+        SpriteSheet monster1_sheet = new SpriteSheet(ImagesLoader.loadImage("/res/textures/1g.png"));
+        SpriteSheet monster2_sheet = new SpriteSheet(ImagesLoader.loadImage("/res/textures/1f.png"));
+        
+        coconut_tree = coconut_tree_sheet.crop(0, 0, WIDTH * 8, HEIGHT * 8);
+        monster1 = monster1_sheet.crop(0, 0, WIDTH * 8, HEIGHT * 8);
+        monster2 = monster2_sheet.crop(0, 0, WIDTH * 8, HEIGHT * 8);
+        
+        //items
+        SpriteSheet gold_sheet = new SpriteSheet(ImagesLoader.loadImage("/res/textures/gold.gif"));
+        gold = gold_sheet.crop(0, 0, 64, 41);
+        
+        SpriteSheet rock_sheet = new SpriteSheet(ImagesLoader.loadImage("/res/textures/rock.png"));
+        rock = rock_sheet.crop(0, 0, 256, 256);
+        
+        SpriteSheet wood_sheet = new SpriteSheet(ImagesLoader.loadImage("/res/textures/wood.png"));
+        wood = wood_sheet.crop(0, 0, 64, 64);
+        
     }
     
 }

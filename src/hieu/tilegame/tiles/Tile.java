@@ -14,7 +14,7 @@ import java.awt.image.BufferedImage;
  */
 public class Tile {
     
-    //THIS PART IS STATIC STUFF - That is so strange because a class contain its object ??
+    //THIS PART IS HANDLER - quickly way create essentially Tile object that we need
     public static Tile[] tiles = new Tile[256];
     public static Tile grassTile = new GrassTile(0);
     public static Tile treeTile = new TreeTile(1);

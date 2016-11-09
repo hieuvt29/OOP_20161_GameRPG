@@ -42,8 +42,6 @@ public class MenuState extends State {
 
     @Override
     public void update() {
-        System.out.println(handler.getMouseManager().isLeftPressed() +" "+ handler.getMouseManager().isRightPressed());
-        
         uiManager.update();
     }
 

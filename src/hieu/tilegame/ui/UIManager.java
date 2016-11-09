@@ -15,29 +15,44 @@ import java.util.ArrayList;
  * @author LOREMSUM
  */
 public class UIManager {
-    
+
     private Handler handler;
     private ArrayList<UIObject> objects;
-    
-    public UIManager(Handler handler){
+
+    public UIManager(Handler handler) {
         this.handler = handler;
         objects = new ArrayList<>();
-        
+
     }
-    public void update(){
-        
+
+    public void update() {
+
     }
-    
-    public void render(Graphics g){
-        for(UIObject o: objects){
+
+    public void render(Graphics g) {
+        for (UIObject o : objects) {
             o.render(g);
         }
     }
-    
-    public void onMouseMove(MouseEvent e){
-        for(UIObject o: objects){
+
+    public void onMouseMove(MouseEvent e) {
+        for (UIObject o : objects) {
             o.onMouseMove(e);
         }
+    }
+
+    public void onMouseRelease(MouseEvent e) {
+        for (UIObject o : objects) {
+            o.onMouseRelease(e);
+        }
+    }
+
+    public void addObject(UIObject uo) {
+        objects.add(uo);
+    }
+
+    public void removeObject(UIObject uo) {
+        objects.remove(uo);
     }
 
     public Handler getHandler() {
@@ -47,15 +62,5 @@ public class UIManager {
     public ArrayList<UIObject> getObjects() {
         return objects;
     }
-    public void onMouseRelease(MouseEvent e){
-        for(UIObject o: objects){
-            o.onMouseRelease(e);
-        }
-    }
-    public void addObject(UIObject uo){
-        objects.add(uo);
-    }
-    public void removeObject(UIObject uo){
-        objects.remove(uo);
-    }
+
 }

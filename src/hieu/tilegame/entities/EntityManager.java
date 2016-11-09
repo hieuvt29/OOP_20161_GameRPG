@@ -11,6 +11,7 @@ import hieu.tilegame.maps.Map;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Iterator;
 
 /**
  *
@@ -41,15 +42,16 @@ public class EntityManager {
     }
 
     public void update() {
-        //we use original form of for loop to make sure it will not get bad when we add collision detection;
-        for (int i = 0; i < entities.size(); i++) {
-            Entity e = entities.get(i);
+        //we use iterator for looping through Array to make sure nothing goes wrong or none of entities is omitted.
+        Iterator<Entity> it = entities.iterator();
+        while(it.hasNext()) {
+            Entity e = it.next();
             e.update();
             if(!e.isActive()){
-                entities.remove(e);
+                it.remove();
             }
         }
-        
+        //sort based on relative of coordinate of every entities to make it more real when rendering
         entities.sort(entityComparator);
 
     }

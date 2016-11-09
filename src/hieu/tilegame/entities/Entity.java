@@ -28,7 +28,7 @@ public abstract class Entity {
     
     public void hurt(int amt){
         health -= amt;
-        System.out.println(health);
+        System.out.println("Health: " + health);
         if(health <= 0){
             active = false;
             die();

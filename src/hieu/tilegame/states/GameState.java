@@ -25,7 +25,7 @@ public class GameState extends State{
         super(handler);
         
         //The order of map and player is important
-        map = new Map(handler, "C:\\Users\\LOREMSUM\\Documents\\NetBeansProjects\\tile-game\\src\\res\\textures\\maps\\map1.txt");
+        map = new Map(handler, ".\\src\\res\\textures\\maps\\map1.txt");
         handler.setMap(map);
         
 

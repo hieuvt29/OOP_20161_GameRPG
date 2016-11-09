@@ -7,7 +7,9 @@ package hieu.tilegame.maps;
 
 import hieu.tilegame.entities.EntityManager;
 import hieu.tilegame.entities.creatures.Player;
+import hieu.tilegame.entities.statics.Coconut_tree;
 import hieu.tilegame.entities.statics.Tree;
+import hieu.tilegame.items.ItemManager;
 import hieu.tilegame.main.Game;
 import hieu.tilegame.main.Handler;
 import hieu.tilegame.tiles.Tile;
@@ -32,22 +34,22 @@ public class Map {
     //Entities
     private EntityManager entityManager;
     
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public EntityManager getEntityManager() {
-        return entityManager;
-    }
+    //Item
+    private ItemManager itemManager;
+    
+    
 
     public Map(Handler handler, String path) {
         this.handler = handler;
+        
+        //init entityManager
         this.entityManager = new EntityManager(handler, new Player(handler, 100, 100));
         this.entityManager.addEntity(new Tree(handler, 300, 500));
+        this.entityManager.addEntity(new Coconut_tree(handler, 300, 600));
+        
+        //init itemManager
+        itemManager =  new ItemManager(handler);
+        
         loadMap(path);
 
         entityManager.getPlayer().setX(spawnX);
@@ -75,6 +77,7 @@ public class Map {
 
     public void update() {
         entityManager.update();
+        itemManager.update();
     }
 
     public void render(Graphics g) {
@@ -102,8 +105,12 @@ public class Map {
         
         //Entities
         entityManager.render(g);
+        
+        //Items
+        itemManager.render(g);
     }
 
+    
     public Tile getTile(int x, int y) {
         //if x, y is out of Map, so it can crash the game
         // so if player is out of Map, we're just going to say he's standing on the grass;
@@ -118,4 +125,35 @@ public class Map {
             return t;
         }
     }
+    
+    
+    //Getters and setters
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public EntityManager getEntityManager() {
+        return entityManager;
+    }
+    
+    public Handler getHandler() {
+        return handler;
+    }
+
+    public void setHandler(Handler handler) {
+        this.handler = handler;
+    }
+
+    public ItemManager getItemManager() {
+        return itemManager;
+    }
+
+    public void setItemManager(ItemManager itemManager) {
+        this.itemManager = itemManager;
+    }
+
 }

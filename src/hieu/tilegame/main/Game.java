@@ -107,7 +107,7 @@ public class Game implements Runnable{
         gameState = new GameState(this.handler);  //we want to maintain this Game object through all the program
         menuState = new MenuState(this.handler);
         
-        GameStatesManager.setCurrentState(menuState);
+        GameStatesManager.setCurrentState(gameState);
         
         //add keyListener 
         display.getFrame().addKeyListener(keyManager);
@@ -200,7 +200,7 @@ public class Game implements Runnable{
             //END;
             //debug
             if(timer > 1000000000){
-                System.out.println("fps: "+ticks);
+               // System.out.println("fps: "+ticks);
                 timer = 0; 
                 ticks = 0;
             }

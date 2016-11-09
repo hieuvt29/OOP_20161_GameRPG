@@ -6,6 +6,7 @@
 package hieu.tilegame.entities.statics;
 
 import hieu.tilegame.gfx.Assets;
+import hieu.tilegame.items.Item;
 import hieu.tilegame.main.Handler;
 import hieu.tilegame.tiles.Tile;
 import java.awt.Color;
@@ -40,6 +41,6 @@ public class Tree extends StaticEntity {
 
     @Override
     public void die() {
-        
+        handler.getMap().getItemManager().addItem(Item.woodItem.createNew((int) x, (int) y));
     }
 }
