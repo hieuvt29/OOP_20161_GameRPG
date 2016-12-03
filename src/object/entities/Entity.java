@@ -51,7 +51,7 @@ public abstract class Entity {
     }
 
     public boolean checkEntityCollisions(float xOffset, float yOffset) {
-        //loop through every entity we have in Map and check whether there are any other entities have collision with this entity
+        //loop through every entity we have in Map2 and check whether there are any other entities have collision with this entity
         
         for (Entity e : handler.getMap().getEntityManager().getEntities()) {
             if (e.equals(this)) {
@@ -130,11 +130,14 @@ public abstract class Entity {
 
     protected void renderHealth(Graphics g) {
         Color temp_color = g.getColor();
-        g.drawRect((int) (x - handler.getGameCamera().getxOffset()) - 10,
-                (int) (y - handler.getGameCamera().getyOffset()) - 15, 100, 10);
+        g.drawRect((int) (x - handler.getGameCamera().getxOffset()) - 20,
+                (int) (y - handler.getGameCamera().getyOffset()) - 20, 100, 10);
+        g.drawString(new Integer(getHealth()).toString(), (int) (x - handler.getGameCamera().getxOffset())+ 82, 
+                (int) (y - handler.getGameCamera().getyOffset()) - 10);
+       
         g.setColor(Color.RED);
-        g.fillRect((int) (x - handler.getGameCamera().getxOffset()) - 10,
-                (int) (y - handler.getGameCamera().getyOffset()) - 15, getHealth() * 100 / getFull_health(), 10);
+        g.fillRect((int) (x - handler.getGameCamera().getxOffset()) - 20,
+                (int) (y - handler.getGameCamera().getyOffset()) - 20, getHealth() * 100 / getFull_health(), 10);
         g.setColor(temp_color);
     }
     

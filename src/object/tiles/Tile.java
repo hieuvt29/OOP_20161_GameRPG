@@ -19,6 +19,7 @@ public class Tile {
     public static Tile grassTile = new GrassTile(0);
     public static Tile treeTile = new TreeTile(1);
     public static Tile waterTile = new WaterTile(2);
+    public static Tile gate = new Gate(50);
     
     
     //THIS PART IS OUR CLASS

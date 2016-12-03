@@ -13,6 +13,7 @@ import java.awt.image.BufferedImage;
 import main.Handler;
 import object.entities.Entity;
 import object.entities.creatures.Creature;
+import object.entities.statics.StaticEntity;
 
 /**
  *
@@ -130,7 +131,7 @@ public class Monster extends Creature {
         //end;
 
         for (Entity e : handler.getMap().getEntityManager().getEntities()) {
-            if (e.equals(this) || e instanceof Monster) {
+            if (e.equals(this) || e instanceof Monster || e instanceof StaticEntity) {
                 continue;
             } else if (e.getCollisionBounds(0f, 0f).intersects(ar)) {
                 

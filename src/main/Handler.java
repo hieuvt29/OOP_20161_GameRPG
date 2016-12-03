@@ -8,7 +8,8 @@ package main;
 import graphics.GameCamera;
 import logic.input.KeyManager;
 import logic.input.MouseManager;
-import graphics.maps.Map;
+import main.states.State;
+import object.Map;
 
 /**
  *
@@ -17,6 +18,7 @@ import graphics.maps.Map;
 public class Handler {
     private Game game;
     private Map map;
+    private State currentState;
     
     public Handler(Game game){
         this.game = game;

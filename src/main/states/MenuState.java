@@ -32,7 +32,7 @@ public class MenuState extends State {
             @Override
             public void onClick() {
                 handler.getMouseManager().setUiManager(null);
-                handler.getGame().setState(handler.getGame().getGameState());
+                handler.getGame().setState(handler.getGame().getPlayState());
             }
         }));
         

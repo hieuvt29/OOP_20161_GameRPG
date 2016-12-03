@@ -9,7 +9,7 @@ import object.entities.creatures.Player;
 import graphics.Assets;
 import main.Game;
 import main.Handler;
-import graphics.maps.Map;
+import object.Map;
 import object.tiles.Tile;
 import java.awt.Graphics;
 
@@ -21,6 +21,7 @@ public class PlayState extends State {
 
     private Map map, map1, map2;
     private int mapIndex;
+
     private Player player;
 
     public PlayState(Handler handler) {
@@ -28,8 +29,8 @@ public class PlayState extends State {
 
         this.player = new Player(handler, 0, 0);
         //The order of map and player is important
-        map1 = new Map(handler, player,  ".\\src\\res\\textures\\maps\\map1.txt");
-        map2 = new Map(handler, player,  ".\\src\\res\\textures\\maps\\map2.txt");
+        map1 = new Map(handler, player, ".\\src\\res\\textures\\maps\\map1.txt");
+        map2 = new Map(handler, player, ".\\src\\res\\textures\\maps\\map2.txt");
         mapIndex = 1;
         checkMap();
 
@@ -56,6 +57,14 @@ public class PlayState extends State {
             map = map2;
         }
         handler.setMap(map);
+    }
+
+    public int getMapIndex() {
+        return mapIndex;
+    }
+
+    public void setMapIndex(int mapIndex) {
+        this.mapIndex = mapIndex;
     }
 
 }

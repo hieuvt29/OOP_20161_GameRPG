@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package graphics.maps;
+package object;
 
 import object.entities.EntityManager;
 import object.entities.creatures.Player;
@@ -17,6 +17,7 @@ import logic.input.Utils;
 import java.awt.Graphics;
 import static java.lang.Integer.parseInt;
 import static java.lang.Integer.parseInt;
+import java.util.ArrayList;
 import object.entities.creatures.Monster;
 
 /**
@@ -27,57 +28,61 @@ public class Map {
 
     private int width, height; //The number of tiles that map will get in width and height
     private int spawnX, spawnY; //where the player be appeared at first
-    
+
     private int gateX, gateY;// TỌa độ của cổng chuyển tiếp giữa 2 map theo bản đồ- Quy ước là 50
     private int endX, endY; //Tọa độ của ô kết thúc theo bản đồ- Quy ước là 100
-    
-    private int[][] staticEntities;// Toạ độ các thực thể tĩnh theo bản đồ
-    private int[][] creatures; // TỌa độ các sinh vật theo bản đồ
-    
-    
+
+    private ArrayList<ArrayList> entitiesCoordinate;// Toạ độ các thực thể theo bản đồ
+
     private int[][] map;
 
     private Handler handler;
 
     //Entities
     private EntityManager entityManager;
-    
+
     //Item
     private ItemManager itemManager;
-    
-    
 
     public Map(Handler handler, Player player, String path) {
         this.handler = handler;
-        
-        staticEntities = new int[10][2];
-        creatures = new int[10][2];
-                
+
+        entitiesCoordinate = new ArrayList<>();
+        //(value, x, y) 
+        //Quy ước value: 5 - cây ăn quả. 6 - cây lấy gỗ
+        //  10 - quái vật
+
         loadMap(path);
         spawnX = 1;
         spawnY = 1;
         //init entityManager
         //Thêm người chơi và khởi tạo vị trí xuất hiện trên bản đồ
         this.entityManager = new EntityManager(handler, player);
-        
-        entityManager.getPlayer().setX(spawnX*Tile.TILE_WIDTH);
-        entityManager.getPlayer().setY(spawnY*Tile.TILE_HEIGHT);
-        
-        // Thêm các đối tượng static
-        this.entityManager.addEntity(new Tree(handler, 300, 500));
-        this.entityManager.addEntity(new Coconut_tree(handler, 300, 600));
-        
-//        // Thêm các quái vật
-//        this.entityManager.setNumMonster(5); // set số lượng quái vật trong bản đồ
-//        for(int i =0 ;i< 5; i++){
-//            entityManager.addEntity(new Monster(handler, 400, 500));
-//        }
-        
-        //init itemManager
-        itemManager =  new ItemManager(handler);
-        
 
-        
+        entityManager.getPlayer().setX(spawnX * Tile.TILE_WIDTH);
+        entityManager.getPlayer().setY(spawnY * Tile.TILE_HEIGHT);
+
+       
+        for(int i =0 ;i < entitiesCoordinate.size(); i++){
+            ArrayList<Integer> arr = entitiesCoordinate.get(i);
+             // Thêm các đối tượng static
+            int id = arr.get(0);
+            int corX = arr.get(1)*Tile.TILE_WIDTH;
+            int corY = arr.get(2)*Tile.TILE_HEIGHT;
+            
+            if(id == 5){
+                this.entityManager.addEntity(new Tree(handler, corX, corY));
+            }else if(id == 6){
+                this.entityManager.addEntity(new Coconut_tree(handler, corX, corY));
+            }else if(id == 10){
+                entityManager.addEntity(new Monster(handler, corX, corY));
+                
+            }
+            
+        }
+        //init itemManager
+        itemManager = new ItemManager(handler);
+
     }
 
     private void loadMap(String path) {
@@ -92,14 +97,20 @@ public class Map {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 map[x][y] = parseInt(tokens[(x + y * width) + 2]);
-                if(map[x][y] == 50){ 
+                if (map[x][y] == 50) {
                     gateX = x;
                     gateY = y;
-                }
-                if(map[x][y] == 100){
+                } else if (map[x][y] == 100) {
                     endX = x;
                     endY = y;
+                } else if (map[x][y] > 4) {
+                    ArrayList<Integer> entityCor = new ArrayList();
+                    entityCor.add(map[x][y]);
+                    entityCor.add(x);
+                    entityCor.add(y);
+                    entitiesCoordinate.add(entityCor);
                 }
+                
             }
         }
 
@@ -132,31 +143,30 @@ public class Map {
                         (int) (y * Tile.TILE_HEIGHT - handler.getGameCamera().getyOffset()));
             }
         }
-        
+
         //Entities
         entityManager.render(g);
-        
+
         //Items
         itemManager.render(g);
     }
 
-    
     public Tile getTile(int x, int y) {
         //if x, y is out of Map, so it can crash the game
         // so if player is out of Map, we're just going to say he's standing on the grass;
-        if( x < 0 || x >= width || y < 0 || y >= height)
+        if (x < 0 || x >= width || y < 0 || y >= height) {
             return Tile.grassTile;
-        
+        }
+
         Tile t = Tile.tiles[map[x][y]];
-        
+
         if (t == null) {
             return Tile.grassTile;
         } else {
             return t;
         }
     }
-    
-    
+
     //Getters and setters
     public int getWidth() {
         return width;
@@ -169,7 +179,7 @@ public class Map {
     public EntityManager getEntityManager() {
         return entityManager;
     }
-    
+
     public Handler getHandler() {
         return handler;
     }
@@ -185,7 +195,7 @@ public class Map {
     public void setItemManager(ItemManager itemManager) {
         this.itemManager = itemManager;
     }
-    
+
     public int getSpawnX() {
         return spawnX;
     }

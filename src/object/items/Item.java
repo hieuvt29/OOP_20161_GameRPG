@@ -18,7 +18,7 @@ import javax.swing.plaf.basic.BasicComboBoxUI;
  */
 public class Item {
     
-    //THIS PART IS HANDLER - quickly way create essentially Item that we need in our Map
+    //THIS PART IS HANDLER - quickly way create essentially Item that we need in our Map2
     //If we have some items that have special abilities and things INSTEAD OF DOING THIS
     //we can always just override (extends) this Item class to make new class and create new instances of specific item class
     

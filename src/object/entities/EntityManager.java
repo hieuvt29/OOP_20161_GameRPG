@@ -7,7 +7,7 @@ package object.entities;
 
 import object.entities.creatures.Player;
 import main.Handler;
-import graphics.maps.Map;
+import object.Map;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Comparator;

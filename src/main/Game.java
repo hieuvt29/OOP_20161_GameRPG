@@ -44,7 +44,7 @@ public class Game implements Runnable {
     private Graphics g;
 
     // State
-    private State gameState;
+    private State playState;
     private State menuState;
 
     //Input: KeyManager instance
@@ -78,10 +78,10 @@ public class Game implements Runnable {
         gameCamera = new GameCamera(this.handler, 0, 0);
 
         //State 
-        gameState = new PlayState(this.handler);  //we want to maintain this Game object through all the program
+        playState = new PlayState(this.handler);  //we want to maintain this Game object through all the program
         menuState = new MenuState(this.handler);
 
-        GameStatesManager.setCurrentState(gameState);
+        GameStatesManager.setCurrentState(playState);
 
         //add keyListener 
         display.getFrame().addKeyListener(keyManager);
@@ -92,19 +92,12 @@ public class Game implements Runnable {
 
     }
 
-    public void setGameState(State gameState) {
-        this.gameState = gameState;
-    }
-
-    public void setState(State state) {
-        GameStatesManager.setCurrentState(state);
-    }
-
     private void update() {
         keyManager.update();
 
         if (GameStatesManager.getCurrentState() != null) {
             GameStatesManager.getCurrentState().update();
+            
         }
     }
 
@@ -215,8 +208,8 @@ public class Game implements Runnable {
         return keyManager;
     }
 
-    public State getGameState() {
-        return gameState;
+    public State getPlayState() {
+        return playState;
     }
 
     public State getMenuState() {
@@ -237,6 +230,14 @@ public class Game implements Runnable {
 
     public int getHeight() {
         return height;
+    }
+
+    public void setPlayState(State playState) {
+        this.playState = playState;
+    }
+
+    public void setState(State state) {
+        GameStatesManager.setCurrentState(state);
     }
 
 }

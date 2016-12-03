@@ -15,6 +15,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import main.states.MenuState;
+import main.states.PlayState;
+import object.tiles.Tile;
 
 /**
  *
@@ -67,11 +70,26 @@ public class Player extends Creature {
         inventory.update();
         
         //Kiểm tra người chơi vào vùng chuyển tiếp giữa 2 map hay chưa
-        if(handler.getMap().getEntityManager().getNumMonster() == 0){
-            if(this.x == handler.getMap().getGateX() && this.y == handler.getMap().getGateY()){
-                
+        
+        if( (int)(this.x + this.width)/Tile.TILE_WIDTH  == handler.getMap().getGateX() && 
+            (int)(this.y+this.height)/Tile.TILE_HEIGHT == handler.getMap().getGateY())
+        {
+            PlayState ps = (PlayState) handler.getGame().getPlayState();
+            if(ps.getMapIndex() == 1){
+                ps.setMapIndex(2);
+                System.out.println("Dang o map 2");
+            }else if(ps.getMapIndex() == 2){
+                ps.setMapIndex(1);
+                System.out.println("Dang o map 1");
             }
         }
+        if(handler.getMap().getEntityManager().getNumMonster() == 0 && 
+           (int)(this.x + this.width)/Tile.TILE_WIDTH == handler.getMap().getEndX()&& 
+           (int)(this.y+this.height)/Tile.TILE_HEIGHT == handler.getMap().getEndY())
+        {
+            handler.getGame().setState(new MenuState(handler));
+        }
+
         
     }
 
