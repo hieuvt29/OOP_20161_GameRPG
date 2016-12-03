@@ -13,10 +13,11 @@ import object.items.ItemManager;
 import main.Game;
 import main.Handler;
 import object.tiles.Tile;
-import logic.utils.Utils;
+import logic.input.Utils;
 import java.awt.Graphics;
 import static java.lang.Integer.parseInt;
 import static java.lang.Integer.parseInt;
+import object.entities.creatures.Monster;
 
 /**
  *
@@ -26,7 +27,10 @@ public class Map {
 
     private int width, height; //The number of tiles that map will get in width and height
     private int spawnX, spawnY; //where the player be appeared at first
-
+    
+    private int gateX, gateY;// TỌa độ của cổng chuyển tiếp giữa 2 map- Quy ước là 50
+    private int endX, endY; //Tọa độ của ô kết thúc. - Quy ước là 100
+    
     private int[][] map;
 
     private Handler handler;
@@ -39,21 +43,31 @@ public class Map {
     
     
 
-    public Map(Handler handler, String path) {
+    public Map(Handler handler, Player player, String path) {
         this.handler = handler;
-        
+        loadMap(path);
         //init entityManager
-        this.entityManager = new EntityManager(handler, new Player(handler, 100, 100));
+        //Thêm người chơi và khởi tạo vị trí xuất hiện trên bản đồ
+        this.entityManager = new EntityManager(handler, player);
+        entityManager.getPlayer().setX(spawnX*Tile.TILE_WIDTH);
+        entityManager.getPlayer().setY(spawnY*Tile.TILE_HEIGHT);
+        
+        // Thêm các đối tượng static
         this.entityManager.addEntity(new Tree(handler, 300, 500));
         this.entityManager.addEntity(new Coconut_tree(handler, 300, 600));
+        
+        // Thêm các quái vật
+        this.entityManager.setNumMonster(5); // set số lượng quái vật trong bản đồ
+        for(int i =0 ;i< 5; i++){
+            entityManager.addEntity(new Monster(handler, 400, 500));
+        }
+        
         
         //init itemManager
         itemManager =  new ItemManager(handler);
         
-        loadMap(path);
 
-        entityManager.getPlayer().setX(spawnX);
-        entityManager.getPlayer().setY(spawnY);
+        
     }
 
     private void loadMap(String path) {
@@ -63,16 +77,78 @@ public class Map {
 
         width = parseInt(tokens[0]);
         height = parseInt(tokens[1]);
-        spawnX = parseInt(tokens[2]);
-        spawnY = parseInt(tokens[3]);
 
         map = new int[width][height];
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                map[x][y] = parseInt(tokens[(x + y * width) + 4]);
+                map[x][y] = parseInt(tokens[(x + y * width) + 2]);
+                if(map[x][y] == 50){ 
+                    gateX = x;
+                    gateY = y;
+                }
+                if(map[x][y] == 100){
+                    endX = x;
+                    endY = y;
+                }
             }
         }
 
+    }
+
+    public int getSpawnX() {
+        return spawnX;
+    }
+
+    public void setSpawnX(int spawnX) {
+        this.spawnX = spawnX;
+    }
+
+    public int getSpawnY() {
+        return spawnY;
+    }
+
+    public void setSpawnY(int spawnY) {
+        this.spawnY = spawnY;
+    }
+
+    public int getGateX() {
+        return gateX;
+    }
+
+    public void setGateX(int gateX) {
+        this.gateX = gateX;
+    }
+
+    public int getGateY() {
+        return gateY;
+    }
+
+    public void setGateY(int gateY) {
+        this.gateY = gateY;
+    }
+
+    public int getEndX() {
+        return endX;
+    }
+
+    public void setEndX(int endX) {
+        this.endX = endX;
+    }
+
+    public int getEndY() {
+        return endY;
+    }
+
+    public void setEndY(int endY) {
+        this.endY = endY;
+    }
+
+    public int[][] getMap() {
+        return map;
+    }
+
+    public void setMap(int[][] map) {
+        this.map = map;
     }
 
     public void update() {

@@ -34,13 +34,14 @@ public class Player extends Creature {
 
     public Player(Handler handler, float x, float y) {
         super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
-
+       
         bounds.x = 16;
         bounds.y = 32;
         bounds.width = 32;
         bounds.height = 32;
 
         //Animation
+        speed = 2f;
         animDown = new Animation(500, Assets.player_down);
         animUp = new Animation(500, Assets.player_up);
         animLeft = new Animation(500, Assets.player_left);
@@ -64,7 +65,14 @@ public class Player extends Creature {
 
         //inventory
         inventory.update();
-
+        
+        //Kiểm tra người chơi vào vùng chuyển tiếp giữa 2 map hay chưa
+        if(handler.getMap().getEntityManager().getNumMonster() == 0){
+            if(this.x == handler.getMap().getGateX() && this.y == handler.getMap().getGateY()){
+                
+            }
+        }
+        
     }
 
     @Override
@@ -81,6 +89,15 @@ public class Player extends Creature {
 
         //inventory
         inventory.render(g);
+        renderHealth(g);
+//        Color temp_color = g.getColor();
+//        g.drawRect((int) (x - handler.getGameCamera().getxOffset()) - 10,
+//                (int) (y - handler.getGameCamera().getyOffset()) - 15, 100, 10);
+//        g.setColor(Color.RED);
+//        g.fillRect((int) (x - handler.getGameCamera().getxOffset()) - 10,
+//                (int) (y - handler.getGameCamera().getyOffset()) - 15, getHealth()* 100 / getFull_health() , 10);
+//        System.out.println(getHealth() / getFull_health() * 100);
+//        g.setColor(temp_color);
 
     }
 
@@ -151,7 +168,7 @@ public class Player extends Creature {
             if (e.equals(this)) {
                 continue;
             } else if (e.getCollisionBounds(0f, 0f).intersects(ar)) {
-                e.hurt(1);
+                e.hurt(10);
                 return;
             }
         }
@@ -191,12 +208,11 @@ public class Player extends Creature {
             System.exit(0);
         }
         //end;
-
     }
 
     @Override
     public void die() {
-        System.out.println("You lose!");
+        System.exit(0);
     }
 
     public int getDirection() {

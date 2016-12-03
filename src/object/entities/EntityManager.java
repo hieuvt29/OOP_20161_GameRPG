@@ -20,6 +20,15 @@ import java.util.Iterator;
 public class EntityManager {
 
     private Player player;
+    private int numMonster; //Số lượng quái trong bản đồ
+
+    public int getNumMonster() {
+        return numMonster;
+    }
+
+    public void setNumMonster(int numMonster) {
+        this.numMonster = numMonster;
+    }
 
     private Handler handler;
     private ArrayList<Entity> entities;

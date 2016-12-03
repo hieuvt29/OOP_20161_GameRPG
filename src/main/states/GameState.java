@@ -19,20 +19,29 @@ import java.awt.Graphics;
  */
 public class GameState extends State{
     
-    private Map map;
+    private Map map, map1, map2;
+    private int mapIndex;
+    private Player player;
     
     public GameState(Handler handler){
         super(handler);
         
-        //The order of map and player is important
-        map = new Map(handler, ".\\src\\res\\textures\\maps\\map1.txt");
-        handler.setMap(map);
+        this.player = new Player(handler, 0, 0);
         
-
+        //The order of map and player is important
+        map1 = new Map(handler, player, ".\\src\\res\\textures\\maps\\map1.txt");
+        map2 = new Map(handler, player,  ".\\src\\res\\textures\\maps\\map2.txt");
+        mapIndex = 1;
+        map = map1;
+        
     }
     @Override
     public void update() {
-        
+        if(mapIndex == 1){
+           map = map1; 
+        }else if(mapIndex == 2){
+            map = map2;
+        }
         map.update();
         
     }

@@ -5,6 +5,7 @@
  */
 package object.entities;
 
+import java.awt.Color;
 import main.Game;
 import main.Handler;
 import java.awt.Graphics;
@@ -15,9 +16,11 @@ import java.awt.Rectangle;
  * @author LOREMSUM
  */
 public abstract class Entity {
-    public static final int DEFAULT_HEALTH = 10;
+
+    protected int full_health = 100;
+
     protected int health; //every creatures has its health
-    
+
     protected float x, y; // every enntity need its coordinate
     protected int width, height; // and its size
     protected Handler handler; //We want every entity can access the Game instance
@@ -25,40 +28,45 @@ public abstract class Entity {
     protected boolean active = true;
 
     public abstract void die();
-    
-    public void hurt(int amt){
+
+    public void hurt(int amt) {
         health -= amt;
         System.out.println("Health: " + health);
-        if(health <= 0){
+        if (health <= 0) {
             active = false;
             die();
         }
     }
-    
-    public Entity(Handler handler, float x, float y, int width, int height){
+
+    public Entity(Handler handler, float x, float y, int width, int height) {
         this.handler = handler;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        
-        this.health = DEFAULT_HEALTH;
-        
-        bounds = new Rectangle(0,0, width, height);
+
+        this.health = full_health;
+
+        bounds = new Rectangle(0, 0, width, height);
     }
-    public boolean checkEntityCollisions(float xOffset, float yOffset){
+
+    public boolean checkEntityCollisions(float xOffset, float yOffset) {
         //loop through every entity we have in Map and check whether there are any other entities have collision with this entity
-        for(Entity e: handler.getMap().getEntityManager().getEntities()){
-            if(e.equals(this))
+        for (Entity e : handler.getMap().getEntityManager().getEntities()) {
+            if (e.equals(this)) {
                 continue;
-            if(e.getCollisionBounds(0f, 0f).intersects(this.getCollisionBounds(xOffset, yOffset)))
+            }
+            if (e.getCollisionBounds(0f, 0f).intersects(this.getCollisionBounds(xOffset, yOffset))) {
                 return true;
+            }
         }
         return false;
     }
-    public Rectangle getCollisionBounds(float xOffset, float yOffset){
-        return new Rectangle((int)(x + bounds.x + xOffset), (int)(y + bounds.y + yOffset), bounds.width, bounds.height);
+
+    public Rectangle getCollisionBounds(float xOffset, float yOffset) {
+        return new Rectangle((int) (x + bounds.x + xOffset), (int) (y + bounds.y + yOffset), bounds.width, bounds.height);
     }
+
     public float getX() {
         return x;
     }
@@ -90,6 +98,7 @@ public abstract class Entity {
     public void setHeight(int height) {
         this.height = height;
     }
+
     public int getHealth() {
         return health;
     }
@@ -105,10 +114,27 @@ public abstract class Entity {
     public void setActive(boolean active) {
         this.active = active;
     }
-    
-    
-    
-    
+
     public abstract void update();
+
     public abstract void render(Graphics g);
+
+    public int getFull_health() {
+        return full_health;
+    }
+
+    public void setFull_health(int full_health) {
+        this.full_health = full_health;
+    }
+
+    protected void renderHealth(Graphics g) {
+        Color temp_color = g.getColor();
+        g.drawRect((int) (x - handler.getGameCamera().getxOffset()) - 10,
+                (int) (y - handler.getGameCamera().getyOffset()) - 15, 100, 10);
+        g.setColor(Color.RED);
+        g.fillRect((int) (x - handler.getGameCamera().getxOffset()) - 10,
+                (int) (y - handler.getGameCamera().getyOffset()) - 15, getHealth() * 100 / getFull_health(), 10);
+        g.setColor(temp_color);
+    }
+    
 }

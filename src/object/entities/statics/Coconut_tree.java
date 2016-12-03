@@ -36,7 +36,7 @@ public class Coconut_tree extends StaticEntity {
     public void render(Graphics g) {
         g.drawImage(Assets.coconut_tree, (int) (x - handler.getGameCamera().getxOffset()),
                 (int) (y - handler.getGameCamera().getyOffset()), width , height, null);
-
+        renderHealth(g);
     }
 
     @Override
