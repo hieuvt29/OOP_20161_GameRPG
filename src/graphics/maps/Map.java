@@ -28,8 +28,12 @@ public class Map {
     private int width, height; //The number of tiles that map will get in width and height
     private int spawnX, spawnY; //where the player be appeared at first
     
-    private int gateX, gateY;// TỌa độ của cổng chuyển tiếp giữa 2 map- Quy ước là 50
-    private int endX, endY; //Tọa độ của ô kết thúc. - Quy ước là 100
+    private int gateX, gateY;// TỌa độ của cổng chuyển tiếp giữa 2 map theo bản đồ- Quy ước là 50
+    private int endX, endY; //Tọa độ của ô kết thúc theo bản đồ- Quy ước là 100
+    
+    private int[][] staticEntities;// Toạ độ các thực thể tĩnh theo bản đồ
+    private int[][] creatures; // TỌa độ các sinh vật theo bản đồ
+    
     
     private int[][] map;
 
@@ -45,10 +49,17 @@ public class Map {
 
     public Map(Handler handler, Player player, String path) {
         this.handler = handler;
+        
+        staticEntities = new int[10][2];
+        creatures = new int[10][2];
+                
         loadMap(path);
+        spawnX = 1;
+        spawnY = 1;
         //init entityManager
         //Thêm người chơi và khởi tạo vị trí xuất hiện trên bản đồ
         this.entityManager = new EntityManager(handler, player);
+        
         entityManager.getPlayer().setX(spawnX*Tile.TILE_WIDTH);
         entityManager.getPlayer().setY(spawnY*Tile.TILE_HEIGHT);
         
@@ -56,12 +67,11 @@ public class Map {
         this.entityManager.addEntity(new Tree(handler, 300, 500));
         this.entityManager.addEntity(new Coconut_tree(handler, 300, 600));
         
-        // Thêm các quái vật
-        this.entityManager.setNumMonster(5); // set số lượng quái vật trong bản đồ
-        for(int i =0 ;i< 5; i++){
-            entityManager.addEntity(new Monster(handler, 400, 500));
-        }
-        
+//        // Thêm các quái vật
+//        this.entityManager.setNumMonster(5); // set số lượng quái vật trong bản đồ
+//        for(int i =0 ;i< 5; i++){
+//            entityManager.addEntity(new Monster(handler, 400, 500));
+//        }
         
         //init itemManager
         itemManager =  new ItemManager(handler);
@@ -93,62 +103,6 @@ public class Map {
             }
         }
 
-    }
-
-    public int getSpawnX() {
-        return spawnX;
-    }
-
-    public void setSpawnX(int spawnX) {
-        this.spawnX = spawnX;
-    }
-
-    public int getSpawnY() {
-        return spawnY;
-    }
-
-    public void setSpawnY(int spawnY) {
-        this.spawnY = spawnY;
-    }
-
-    public int getGateX() {
-        return gateX;
-    }
-
-    public void setGateX(int gateX) {
-        this.gateX = gateX;
-    }
-
-    public int getGateY() {
-        return gateY;
-    }
-
-    public void setGateY(int gateY) {
-        this.gateY = gateY;
-    }
-
-    public int getEndX() {
-        return endX;
-    }
-
-    public void setEndX(int endX) {
-        this.endX = endX;
-    }
-
-    public int getEndY() {
-        return endY;
-    }
-
-    public void setEndY(int endY) {
-        this.endY = endY;
-    }
-
-    public int[][] getMap() {
-        return map;
-    }
-
-    public void setMap(int[][] map) {
-        this.map = map;
     }
 
     public void update() {
@@ -230,6 +184,62 @@ public class Map {
 
     public void setItemManager(ItemManager itemManager) {
         this.itemManager = itemManager;
+    }
+    
+    public int getSpawnX() {
+        return spawnX;
+    }
+
+    public void setSpawnX(int spawnX) {
+        this.spawnX = spawnX;
+    }
+
+    public int getSpawnY() {
+        return spawnY;
+    }
+
+    public void setSpawnY(int spawnY) {
+        this.spawnY = spawnY;
+    }
+
+    public int getGateX() {
+        return gateX;
+    }
+
+    public void setGateX(int gateX) {
+        this.gateX = gateX;
+    }
+
+    public int getGateY() {
+        return gateY;
+    }
+
+    public void setGateY(int gateY) {
+        this.gateY = gateY;
+    }
+
+    public int getEndX() {
+        return endX;
+    }
+
+    public void setEndX(int endX) {
+        this.endX = endX;
+    }
+
+    public int getEndY() {
+        return endY;
+    }
+
+    public void setEndY(int endY) {
+        this.endY = endY;
+    }
+
+    public int[][] getMap() {
+        return map;
+    }
+
+    public void setMap(int[][] map) {
+        this.map = map;
     }
 
 }

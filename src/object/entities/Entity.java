@@ -52,6 +52,7 @@ public abstract class Entity {
 
     public boolean checkEntityCollisions(float xOffset, float yOffset) {
         //loop through every entity we have in Map and check whether there are any other entities have collision with this entity
+        
         for (Entity e : handler.getMap().getEntityManager().getEntities()) {
             if (e.equals(this)) {
                 continue;

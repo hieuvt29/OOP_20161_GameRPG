@@ -23,8 +23,8 @@ public class Tile {
     
     //THIS PART IS OUR CLASS
     private BufferedImage texture;
-    private final int id; //we can use it for making our map
-    public static final int TILE_WIDTH = 64, TILE_HEIGHT = 64; //sizing our images
+    private final int id; 
+    public static final int TILE_WIDTH = 64, TILE_HEIGHT = 64;
     
     public Tile(BufferedImage texture, int id){
         this.texture = texture;

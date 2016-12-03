@@ -10,7 +10,7 @@ import graphics.GameCamera;
 import graphics.ImagesLoader;
 import logic.input.KeyManager;
 import logic.input.MouseManager;
-import main.states.GameState;
+import main.states.PlayState;
 import main.states.GameStatesManager;
 import main.states.MenuState;
 import main.states.State;
@@ -78,7 +78,7 @@ public class Game implements Runnable {
         gameCamera = new GameCamera(this.handler, 0, 0);
 
         //State 
-        gameState = new GameState(this.handler);  //we want to maintain this Game object through all the program
+        gameState = new PlayState(this.handler);  //we want to maintain this Game object through all the program
         menuState = new MenuState(this.handler);
 
         GameStatesManager.setCurrentState(gameState);

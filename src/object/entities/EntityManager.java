@@ -22,26 +22,19 @@ public class EntityManager {
     private Player player;
     private int numMonster; //Số lượng quái trong bản đồ
 
-    public int getNumMonster() {
-        return numMonster;
-    }
-
-    public void setNumMonster(int numMonster) {
-        this.numMonster = numMonster;
-    }
-
     private Handler handler;
     private ArrayList<Entity> entities;
+    
     private Comparator<Entity> entityComparator = new Comparator<Entity>() {
         @Override
         public int compare(Entity o1, Entity o2) {
-            if(o1.getY() + o1.bounds.y + o1.bounds.height < o2.getY() + o2.bounds.y + o2.bounds.height){
+            if (o1.getY() + o1.bounds.y + o1.bounds.height < o2.getY() + o2.bounds.y + o2.bounds.height) {
                 return -1;
             }
             return 1;
         }
     };
-    
+
     public EntityManager(Handler handler, Player player) {
         this.handler = handler;
         this.player = player;
@@ -53,10 +46,10 @@ public class EntityManager {
     public void update() {
         //we use iterator for looping through Array to make sure nothing goes wrong or none of entities is omitted.
         Iterator<Entity> it = entities.iterator();
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             Entity e = it.next();
             e.update();
-            if(!e.isActive()){
+            if (!e.isActive()) {
                 it.remove();
             }
         }
@@ -85,5 +78,13 @@ public class EntityManager {
 
     public ArrayList<Entity> getEntities() {
         return entities;
+    }
+
+    public int getNumMonster() {
+        return numMonster;
+    }
+
+    public void setNumMonster(int numMonster) {
+        this.numMonster = numMonster;
     }
 }
