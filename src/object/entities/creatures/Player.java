@@ -18,7 +18,6 @@ import java.awt.image.BufferedImage;
 import main.states.MenuState;
 import main.states.PlayState;
 import object.tiles.Tile;
-
 /**
  *
  * @author LOREMSUM
@@ -99,6 +98,7 @@ public class Player extends Creature {
                 System.out.println("Dang o map 1");
             }
         }
+        System.out.println("So luong monster:" + handler.getMap().getEntityManager().getNumMonster());
         if(handler.getMap().getEntityManager().getNumMonster() == 0 && 
            (int)(this.x + this.width)/Tile.TILE_WIDTH == handler.getMap().getEndX()&& 
            (int)(this.y+this.height)/Tile.TILE_HEIGHT == handler.getMap().getEndY())
