@@ -21,31 +21,40 @@ import object.entities.statics.StaticEntity;
  */
 public class Monster extends Creature {
     //Animation
+    //Animation
 
-    private Animation animUp, animDown, animLeft, animRight;
-    private int direction; // 1- up, 2 - right, 3- down, 4 - left
+    private Animation[] walkAnims;
+    private Animation[] hitAnims;
+    private int direction; // 0- up, 1 - right, 2- down, 3 - left
 
     //Attack control
-    private long lastAttackTimer, attackCoolDown = 300, attackTimer = 0;
+    private long lastAttackTimer, attackCoolDown = 200, attackTimer = 0;
 
     public Monster(Handler handler, float x, float y) {
         super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
+
+        //Attack
+        attackAmount = 5;
+
+        //Bounding rectangle
         bounds.x = 16;
         bounds.y = 32;
         bounds.width = 32;
         bounds.height = 32;
 
         //Animation
-        speed = 0.5f;
-        animDown = new Animation(500, Assets.player_down);
-        animUp = new Animation(500, Assets.player_up);
-        animLeft = new Animation(500, Assets.player_left);
-        animRight = new Animation(500, Assets.player_right);
+        speed = 1f;
 
-        direction = 3;
+        hitAnims = new Animation[4];
+
+        hitAnims[0] = new Animation(100, Assets.player_hit_up);
+        hitAnims[1] = new Animation(100, Assets.player_hit_right);
+        hitAnims[2] = new Animation(100, Assets.player_hit_down);
+        hitAnims[3] = new Animation(100, Assets.player_hit_left);
+
+        direction = 2;
 
     }
-
 
     @Override
     public void update() {
@@ -53,50 +62,36 @@ public class Monster extends Creature {
         float playerY = handler.getMap().getEntityManager().getPlayer().getY();
 //        newPosition[0] = handler.getMap().getEntityManager().getPlayer().getX();
 //        newPosition[1] = handler.getMap().getEntityManager().getPlayer().getY();
-        if (Math.sqrt((playerX - x)*(playerX - x) + (playerY - y)* (playerY - y)) < 400)  {
+        if (Math.sqrt((playerX - x) * (playerX - x) + (playerY - y) * (playerY - y)) < 400) {
             chase(playerX, playerY);
             move();
             checkAttacks();
         }
-
     }
 
     @Override
     public void render(Graphics g) {
-        g.drawImage(getCurrentPlayerFrame(), (int) (x - handler.getGameCamera().getxOffset()),
-                (int) (y - handler.getGameCamera().getyOffset()), width, height, null);
+
+        g.drawImage(getCurrentPlayerFrame(hitAnims), (int) (x - handler.getGameCamera().getxOffset()) - width,
+                (int) (y - handler.getGameCamera().getyOffset()) - height, width * 3, height * 3, null);
+
         renderHealth(g);
     }
 
-    private BufferedImage getCurrentPlayerFrame() {
+    private BufferedImage getCurrentPlayerFrame(Animation[] anim) {
         if (xMove > 0) {
-            direction = 2;
-            return animRight.getCurrentFrame();
-        } else if (xMove < 0) {
-            direction = 4;
-            return animLeft.getCurrentFrame();
-        } else if (yMove < 0) {
             direction = 1;
-            return animUp.getCurrentFrame();
-        } else if (yMove > 0) {
+        } else if (xMove < 0) {
             direction = 3;
-            return animDown.getCurrentFrame();
-        } else {
-            switch (direction) {
-                case 1:
-                    return animUp.getCurrentFrame();
-                case 2:
-                    return animRight.getCurrentFrame();
-                case 4:
-                    return animLeft.getCurrentFrame();
-                default:
-                    return animDown.getCurrentFrame();
-            }
+        } else if (yMove < 0) {
+            direction = 0;
+        } else if (yMove > 0) {
+            direction = 2;
         }
+        return anim[direction].getCurrentFrame();
     }
 
     private void checkAttacks() {
-
         //check for waiting time
         attackTimer += System.currentTimeMillis() - lastAttackTimer;
         lastAttackTimer = System.currentTimeMillis();
@@ -111,31 +106,36 @@ public class Monster extends Creature {
         ar.width = arSize;
         ar.height = arSize;
 
-        if (this.direction == 1) { //up
+        hitAnims[this.direction].update();
+        if (this.direction == 0) { //up
             ar.x = cb.x + cb.width / 2 - arSize / 2;
             ar.y = cb.y - arSize;
-        } else if (this.direction == 2) { //right
+
+        } else if (this.direction == 1) { //right
             ar.x = cb.x + cb.width;
             ar.y = cb.y + cb.height / 2 - arSize / 2;
-        } else if (this.direction == 3) {//down
+
+        } else if (this.direction == 2) {//down
             ar.x = cb.x + cb.width / 2 - arSize / 2;
             ar.y = cb.y + cb.height;
-        } else if (this.direction == 4) { //left
+
+        } else if (this.direction == 3) { //left
             ar.x = cb.x - arSize;
             ar.y = cb.y + cb.height / 2 - arSize / 2;
+
         } else {
             return;
         }
+
         //wait another period of time
         attackTimer = 0;
         //end;
 
         for (Entity e : handler.getMap().getEntityManager().getEntities()) {
-            if (e.equals(this) || e instanceof Monster || e instanceof StaticEntity) {
+            if (e.equals(this)) {
                 continue;
             } else if (e.getCollisionBounds(0f, 0f).intersects(ar)) {
-                
-                e.hurt(5);
+                e.hurt(attackAmount);
                 return;
             }
         }
@@ -154,26 +154,28 @@ public class Monster extends Creature {
 
         if (xMove > 1) {
             xMove = 1;
-            animUp.update();
+            hitAnims[0].update();
         }
         if (xMove < -1) {
             xMove = -1;
-            animDown.update();
+            hitAnims[2].update();
         }
         if (yMove > 1) {
             yMove = 1;
-            animRight.update();
+            hitAnims[1].update();
         }
         if (yMove < -1) {
             yMove = -1;
-            animLeft.update();
+            hitAnims[3].update();
         }
 
     }
+
     @Override
-    public void die(){
+    public void die() {
         handler.getMap().getEntityManager().setNumMonster(handler.getMap().getEntityManager().getNumMonster() - 1);
     }
+
     private float[] randomPosition() {
         float x = (float) (Math.random() * handler.getMap().getWidth() + 1);
         float y = (float) (Math.random() * handler.getMap().getHeight() + 1);

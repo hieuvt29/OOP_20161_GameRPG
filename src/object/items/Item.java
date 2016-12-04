@@ -16,22 +16,22 @@ import javax.swing.plaf.basic.BasicComboBoxUI;
  *
  * @author LOREMSUM
  */
-public class Item {
+public abstract class Item {
     
     //THIS PART IS HANDLER - quickly way create essentially Item that we need in our Map2
     //If we have some items that have special abilities and things INSTEAD OF DOING THIS
     //we can always just override (extends) this Item class to make new class and create new instances of specific item class
     
     public static Item[] items = new Item[256]; //this array store essentially 1 instance of every single item in our game with different id
-    public static Item woodItem = new Item(Assets.wood, "Wood", 0);
-    public static Item rockItem = new Item(Assets.rock, "Rock", 1);
-    public static Item goldItem = new Item(Assets.gold, "Gold", 2);
+    public static Item HPItem = new HPItem("HPItem", 0);
+    public static Item rockItem = new RockItem("Rock", 1);
+    public static Item goldItem = new GoldItem("Gold", 2);
     
     
     //THIS PART IS OUR CLASS
     public static final int ITEM_WIDTH = 32,
                             ITEM_HEIGHT = 32;
-                            
+
     protected Handler handler;
     protected String name;
     protected BufferedImage texture;
@@ -44,9 +44,9 @@ public class Item {
     protected Rectangle bounds;
 
     protected int x, y ;
-    protected int count; //use for inventory function: 
-                         //if we have 50 wood item, instead of creating 50 new instances of wood item, 
-                         //we just create 1 instance of wood item with count = 50
+    protected int count; // SỬ dụng để quản lý inventory
+                         //nếu ta có 50 gỗ, thay vì tạo ra 50 đối tượng gỗ mới,  
+                         //ta chỉ cần tạo ra 1 đối tượng gỗ mới với thuộc tính count = 50
     
     public Item(BufferedImage texture, String name, int id){
         this.texture = texture;
@@ -71,10 +71,9 @@ public class Item {
         }
     }
     
-    //why we need 2 render methods?
-    //because an item can be either in the game map lying on the ground or the item can be in the players inventory
-    //so (x,y) to specify where this item on the map and we us render(Graphics g) to render it
-    //and we use render(Graphics g, int x, int y) to render this item to a specific spot on screen in a specific inventory slot.
+    // Item có thể có 2 vị trí, một là nằm ở trên bản đồ, hai là ở trong inventory của người chơi
+    // vì vậy ta sử dụng thêm 2 thuộc tính vị trí x, y để xác định ví trị item đc in ra trên bản đồ
+    // ta có thể in ra ở vị trí inventory xác định.
     public void render(Graphics g){
         if(handler == null) //handler can be null because sometimes we don't need it in Item
             return;
@@ -83,18 +82,16 @@ public class Item {
     
     public void render(Graphics g, int x, int y){
         g.drawImage(texture, x, y, ITEM_WIDTH, ITEM_HEIGHT,  null);
+        g.drawString(new Integer(this.getCount()).toString(), x+ this.bounds.width, y + this.bounds.height);
     }
 
-    public Item createNew(int x, int y){
-        Item item = new Item(texture, name, id);
-        item.setPosition(x, y);
-        return item;
-    }
+    public abstract Item createNew(int x, int y);
 
     public int getId() {
         return id;
     }
     public void setPosition(int x, int y){
+        //Sau khi được in ra bản đồ thì item mới có hình bao xác định collision
         this.x = x;
         this.y = y;
         bounds.x = x;

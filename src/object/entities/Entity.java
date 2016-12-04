@@ -19,13 +19,14 @@ public abstract class Entity {
 
     protected int full_health = 100;
 
-    protected int health; //every creatures has its health
+    protected int health;
+    protected int attackAmount;
 
-    protected float x, y; // every enntity need its coordinate
-    protected int width, height; // and its size
-    protected Handler handler; //We want every entity can access the Game instance
-    protected Rectangle bounds; // bounding rectangle for every entity
-    protected boolean active = true;
+    protected float x, y;// Toa do cua thuc the
+    protected int width, height; // Kich thuoc cua thuc the
+    protected Handler handler; 
+    protected Rectangle bounds; // Hinh bao xac dinh collision
+    protected boolean active = true; // Trang thai ton tai cua thuc the
 
     public abstract void die();
 
@@ -35,6 +36,14 @@ public abstract class Entity {
         if (health <= 0) {
             active = false;
             die();
+        }
+    }
+    
+    public void increaseHP (int Hp){
+        if(health + Hp <= full_health){
+            health += Hp;
+        }else{
+            health = full_health;
         }
     }
 

@@ -11,9 +11,9 @@ import java.awt.image.BufferedImage;
  *
  * @author LOREMSUM
  */
-public class SpriteSheet {
+public class Sheet {
     private BufferedImage sheet;
-    public SpriteSheet(BufferedImage sheet){
+    public Sheet(BufferedImage sheet){
         this.sheet = sheet;
     }
     public BufferedImage crop(int x, int y, int width, int height){

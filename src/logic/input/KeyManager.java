@@ -17,6 +17,7 @@ public class KeyManager implements KeyListener {
     private boolean[] keys, justPressed, cantPress;
     public boolean up, down, left, right;
     public boolean hit;
+    public boolean useHPItem;
 
     //debug
     public boolean respawn;
@@ -64,6 +65,7 @@ public class KeyManager implements KeyListener {
         left = keys[KeyEvent.VK_A];
         right = keys[KeyEvent.VK_D];
         hit = keys[KeyEvent.VK_SPACE];
+        useHPItem = keys[KeyEvent.VK_1];
 
         //debug
         respawn = keys[KeyEvent.VK_R];

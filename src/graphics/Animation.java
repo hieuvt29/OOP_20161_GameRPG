@@ -36,6 +36,7 @@ public class Animation {
         if(timer > speed){
             timer = 0;
             index ++;
+            System.out.println("frame index: "+ index);
             if(index >= frames.length){
                 index = 0;
             }

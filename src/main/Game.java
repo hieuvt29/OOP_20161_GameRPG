@@ -81,7 +81,7 @@ public class Game implements Runnable {
         playState = new PlayState(this.handler);  //we want to maintain this Game object through all the program
         menuState = new MenuState(this.handler);
 
-        GameStatesManager.setCurrentState(playState);
+        GameStatesManager.setCurrentState(menuState);
 
         //add keyListener 
         display.getFrame().addKeyListener(keyManager);

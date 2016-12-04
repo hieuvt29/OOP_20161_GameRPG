@@ -8,7 +8,7 @@ package object.entities.creatures;
 import object.entities.Entity;
 import graphics.Animation;
 import graphics.Assets;
-import object.inventory.Inventory;
+import object.items.Inventory;
 import main.Game;
 import main.Handler;
 import java.awt.Color;
@@ -26,8 +26,10 @@ import object.tiles.Tile;
 public class Player extends Creature {
 
     //Animation
-    private Animation animUp, animDown, animLeft, animRight;
-    private int direction; // 1- up, 2 - right, 3- down, 4 - left
+    
+    private Animation[] walkAnims;
+    private Animation[] hitAnims;
+    private int direction; // 0- up, 1 - right, 2- down, 3 - left
 
     //Attack control
     private long lastAttackTimer, attackCoolDown = 200, attackTimer = 0;
@@ -38,6 +40,11 @@ public class Player extends Creature {
     public Player(Handler handler, float x, float y) {
         super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
        
+        //Attack
+        attackAmount = 10;
+        
+        
+        //Bounding rectangle
         bounds.x = 16;
         bounds.y = 32;
         bounds.width = 32;
@@ -45,12 +52,21 @@ public class Player extends Creature {
 
         //Animation
         speed = 2f;
-        animDown = new Animation(500, Assets.player_down);
-        animUp = new Animation(500, Assets.player_up);
-        animLeft = new Animation(500, Assets.player_left);
-        animRight = new Animation(500, Assets.player_right);
+        walkAnims = new Animation[4];
+        hitAnims = new Animation[4];
+        
+        walkAnims[0] = new Animation(100, Assets.player_up);
+        walkAnims[1] = new Animation(100, Assets.player_right);
+        walkAnims[2] = new Animation(100, Assets.player_down);
+        walkAnims[3] = new Animation(100, Assets.player_left);
+        
+        hitAnims[0] = new Animation(100, Assets.player_hit_up);
+        hitAnims[1] = new Animation(100, Assets.player_hit_right);
+        hitAnims[2] = new Animation(100, Assets.player_hit_down);
+        hitAnims[3] = new Animation(100, Assets.player_hit_left);
+        
 
-        direction = 3;
+        direction = 2;
 
         //inventory
         inventory = new Inventory(handler);
@@ -95,9 +111,14 @@ public class Player extends Creature {
 
     @Override
     public void render(Graphics g) {
-
-        g.drawImage(getCurrentPlayerFrame(), (int) (x - handler.getGameCamera().getxOffset()),
+        if(handler.getKeyManager().hit){
+            g.drawImage(getCurrentPlayerFrame(hitAnims), (int) (x - handler.getGameCamera().getxOffset()) - width,
+                (int) (y - handler.getGameCamera().getyOffset()) - height, width*3, height*3, null);
+        }else{
+            g.drawImage(getCurrentPlayerFrame(walkAnims), (int) (x - handler.getGameCamera().getxOffset()),
                 (int) (y - handler.getGameCamera().getyOffset()), width, height, null);
+        }
+        
 //      //debug
 //        g.setColor(Color.red);
 //        g.fillRect((int)(x + bounds.x - handler.getGameCamera().getxOffset()), 
@@ -119,31 +140,17 @@ public class Player extends Creature {
 
     }
 
-    private BufferedImage getCurrentPlayerFrame() {
+    private BufferedImage getCurrentPlayerFrame(Animation[] anim) {
         if (xMove > 0) {
-            direction = 2;
-            return animRight.getCurrentFrame();
-        } else if (xMove < 0) {
-            direction = 4;
-            return animLeft.getCurrentFrame();
-        } else if (yMove < 0) {
             direction = 1;
-            return animUp.getCurrentFrame();
-        } else if (yMove > 0) {
+        } else if (xMove < 0) {
             direction = 3;
-            return animDown.getCurrentFrame();
-        } else {
-            switch (direction) {
-                case 1:
-                    return animUp.getCurrentFrame();
-                case 2:
-                    return animRight.getCurrentFrame();
-                case 4:
-                    return animLeft.getCurrentFrame();
-                default:
-                    return animDown.getCurrentFrame();
-            }
-        }
+        } else if (yMove < 0) {
+            direction =0;
+        } else if (yMove > 0) {
+            direction = 2;
+        } 
+        return anim[direction].getCurrentFrame();
     }
 
     private void checkAttacks() {
@@ -162,18 +169,23 @@ public class Player extends Creature {
         ar.height = arSize;
 
         if (handler.getKeyManager().hit) {
-            if (this.direction == 1) { //up
+            hitAnims[this.direction].update();
+            if (this.direction == 0) { //up
                 ar.x = cb.x + cb.width / 2 - arSize / 2;
                 ar.y = cb.y - arSize;
-            } else if (this.direction == 2) { //right
+                
+            } else if (this.direction == 1) { //right
                 ar.x = cb.x + cb.width;
                 ar.y = cb.y + cb.height / 2 - arSize / 2;
-            } else if (this.direction == 3) {//down
+                
+            } else if (this.direction == 2) {//down
                 ar.x = cb.x + cb.width / 2 - arSize / 2;
                 ar.y = cb.y + cb.height;
-            } else if (this.direction == 4) { //left
+                
+            } else if (this.direction == 3) { //left
                 ar.x = cb.x - arSize;
                 ar.y = cb.y + cb.height / 2 - arSize / 2;
+                
             } else {
                 return;
             }
@@ -186,7 +198,7 @@ public class Player extends Creature {
             if (e.equals(this)) {
                 continue;
             } else if (e.getCollisionBounds(0f, 0f).intersects(ar)) {
-                e.hurt(10);
+                e.hurt(attackAmount);
                 return;
             }
         }
@@ -202,19 +214,19 @@ public class Player extends Creature {
 
         if (handler.getKeyManager().up) {
             yMove = -speed;
-            animUp.update();
+            walkAnims[0].update();
         }
         if (handler.getKeyManager().down) {
             yMove = speed;
-            animDown.update();
+            walkAnims[2].update();
         }
         if (handler.getKeyManager().left) {
             xMove = -speed;
-            animLeft.update();
+            walkAnims[3].update();
         }
         if (handler.getKeyManager().right) {
             xMove = speed;
-            animRight.update();
+            walkAnims[1].update();
         }
 
         //debug

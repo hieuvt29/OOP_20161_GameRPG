@@ -41,6 +41,6 @@ public class Tree extends StaticEntity {
 
     @Override
     public void die() {
-        handler.getMap().getItemManager().addItem(Item.woodItem.createNew((int) x, (int) y));
+        handler.getMap().getItemManager().addItem(Item.HPItem.createNew((int) x, (int) y));
     }
 }
