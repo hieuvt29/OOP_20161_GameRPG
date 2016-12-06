@@ -22,6 +22,7 @@ import object.entities.creatures.Monster;
 import object.entities.creatures.SeniorMonster;
 import static java.lang.Integer.parseInt;
 import static java.lang.Integer.parseInt;
+import object.entities.statics.CoconutTree;
 
 /**
  *
@@ -78,9 +79,9 @@ public class Map {
                 this.entityManager.addEntity(new CoconutTree(handler, corX, corY));
             } else if (id == 10) {
                 entityManager.addEntity(new Monster(handler, corX, corY));
-            } else if (id == 11) {
+            }else if (id == 11){
                 entityManager.addEntity(new SeniorMonster(handler, corX, corY));
-
+                entityManager.setNumMonster(entityManager.getNumMonster() + 1);
             }
         }
         //init itemManager

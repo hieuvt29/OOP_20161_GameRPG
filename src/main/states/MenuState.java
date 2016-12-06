@@ -28,10 +28,10 @@ public class MenuState extends State {
         super(handler);
         uiManager = new UIManager(handler);
         handler.getMouseManager().setUiManager(uiManager);
-uiManager.addObject(new UIImageButton(0, 0, 640, 480, Assets.backgroundmenu, new ClickListener() {
+        uiManager.addObject(new UIImageButton(0, 0, 640, 480, Assets.backgroundmenu, new ClickListener() {
             @Override
             public void onClick() {
-                
+
             }
         }));
 
@@ -45,14 +45,14 @@ uiManager.addObject(new UIImageButton(0, 0, 640, 480, Assets.backgroundmenu, new
         uiManager.addObject(new UIImageButton(250, 180, 120, 70, Assets.btnInstructions, new ClickListener() {
             @Override
             public void onClick() {
-              Instructions instructions = new  Instructions();
-              instructions.createAboutPanel();
+                Instructions instructions = new Instructions();
+                instructions.createAboutPanel();
             }
         }));
-         uiManager.addObject(new UIImageButton(250, 290, 120, 70, Assets.btnQuit, new ClickListener() {
+        uiManager.addObject(new UIImageButton(250, 290, 120, 70, Assets.btnQuit, new ClickListener() {
             @Override
             public void onClick() {
-               System.exit(0);
+                System.exit(0);
             }
         }));
     }

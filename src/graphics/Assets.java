@@ -18,7 +18,7 @@ public class Assets {
     public static BufferedImage[] player_hit_up, player_hit_down, player_hit_left, player_hit_right;
     public static BufferedImage[] monster_up, monster_down, monster_left, monster_right;
     public static BufferedImage[] senior_monster_up, senior_monster_down, senior_monster_left, senior_monster_right;
-    public static BufferedImage[] backgroundmenu,btnStart,btnQuit,btnInstructions,btnNewgame,btnQuitGame,bggameover;
+    public static BufferedImage[] backgroundmenu, btnStart, btnQuit, btnInstructions, btnNewgame, btnQuitGame, bggameover;
 
     public static BufferedImage grass, tree, coconut_tree, water, dola, door, shield, HPItem;
 
@@ -145,6 +145,27 @@ public class Assets {
         bggameover[0] = ImagesLoader.loadImage("/res/textures/bggameover.jpg");
         bggameover[1] = ImagesLoader.loadImage("/res/textures/bggameover.jpg");
 
+        backgroundmenu = new BufferedImage[2];
+        btnStart = new BufferedImage[2];
+        btnQuit = new BufferedImage[2];
+        btnNewgame = new BufferedImage[2];
+        btnQuitGame = new BufferedImage[2];
+        btnInstructions = new BufferedImage[2];
+        bggameover = new BufferedImage[2];
+        btnStart[0] = ImagesLoader.loadImage("/res/textures/btPlay1.png");
+        btnStart[1] = ImagesLoader.loadImage("/res/textures/btPlay2.png");
+        btnQuit[0] = ImagesLoader.loadImage("/res/textures/btnQuit.png");
+        btnQuit[1] = ImagesLoader.loadImage("/res/textures/btnQuit.png");
+        backgroundmenu[0] = ImagesLoader.loadImage("/res/textures/backgroundmenu.jpg");
+        backgroundmenu[1] = ImagesLoader.loadImage("/res/textures/backgroundmenu.jpg");
+        btnInstructions[0] = ImagesLoader.loadImage("/res/textures/instruction1.png");
+        btnInstructions[1] = ImagesLoader.loadImage("/res/textures/instruction2.png");
+        btnNewgame[0] = ImagesLoader.loadImage("/res/textures/newgame.png");
+        btnNewgame[1] = ImagesLoader.loadImage("/res/textures/newgame.png");
+        btnQuitGame[0] = ImagesLoader.loadImage("/res/textures/quitgame.png");
+        btnQuitGame[1] = ImagesLoader.loadImage("/res/textures/quitgame.png");
+        bggameover[0] = ImagesLoader.loadImage("/res/textures/bggameover.jpg");
+        bggameover[1] = ImagesLoader.loadImage("/res/textures/bggameover.jpg");
     }
 
 }
