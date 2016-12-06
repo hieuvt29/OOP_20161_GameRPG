@@ -5,6 +5,7 @@
  */
 package main.states;
 
+import graphics.Animation;
 import object.entities.creatures.Player;
 import graphics.Assets;
 import main.Game;
@@ -27,8 +28,11 @@ public class PlayState extends State {
     public PlayState(Handler handler) {
         super(handler);
 
+        //Khởi tạo Animation cho người chơi và tạo người chơi
+        Animation.init();
         this.player = new Player(handler, 0, 0);
-        //The order of map and player is important
+        
+        //Khởi tạo bản đồ
         map1 = new Map(handler, player, ".\\src\\res\\textures\\maps\\map1.txt");
         map2 = new Map(handler, player, ".\\src\\res\\textures\\maps\\map2.txt");
         mapIndex = 1;

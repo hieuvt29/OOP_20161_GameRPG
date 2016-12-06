@@ -28,6 +28,7 @@ public abstract class Item {
     public static Item rockItem = new RockItem("Rock", 1);
     public static Item dollarItem = new DollarItem("Shield", 2);
     public static Item shieldItem = new ShieldItem("Shield", 3);
+    public static Item swordItem = new SwordItem("Sword", 4);
     
     
     //THIS PART IS OUR CLASS

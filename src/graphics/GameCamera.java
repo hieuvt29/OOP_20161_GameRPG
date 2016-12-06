@@ -43,10 +43,7 @@ public class GameCamera {
 
     }
 
-    public void move(float xAmount, float yAmount) {
-        xOffset += xAmount;
-        yOffset += yAmount;
-    }
+ 
 
     public void centerOnEntity(Entity e) {
         xOffset = e.getX() - handler.getWidth() / 2 + e.getWidth() / 2;

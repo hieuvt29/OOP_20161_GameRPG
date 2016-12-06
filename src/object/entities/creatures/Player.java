@@ -29,11 +29,14 @@ import object.tiles.Tile;
 public class Player extends Creature {
 
     //Animation
-    private Animation[] currentAnims, walkAnims, hitAnims;
+    private Animation[][] currentAnimSet;
+    private int playerState;
+
     private int direction; // 0- up, 1 - right, 2- down, 3 - left
 
     //Attack control
     private long lastAttackTimer, attackCoolDown = 200, attackTimer = 0;
+    private int attackRange;
 
     //Inventory
     private Inventory inventory;
@@ -43,6 +46,7 @@ public class Player extends Creature {
 
         //Attack
         attackAmount = 10;
+        attackRange = 20;
 
         //Bounding rectangle
         bounds.x = 32;
@@ -52,20 +56,11 @@ public class Player extends Creature {
 
         //Animation
         speed = 2f;
-        walkAnims = new Animation[4];
-        hitAnims = new Animation[4];
-
-        walkAnims[0] = new Animation(100, Assets.player_up);
-        walkAnims[1] = new Animation(100, Assets.player_right);
-        walkAnims[2] = new Animation(100, Assets.player_down);
-        walkAnims[3] = new Animation(100, Assets.player_left);
-
-        hitAnims[0] = new Animation(100, Assets.player_hit_up);
-        hitAnims[1] = new Animation(100, Assets.player_hit_right);
-        hitAnims[2] = new Animation(100, Assets.player_hit_down);
-        hitAnims[3] = new Animation(100, Assets.player_hit_left);
-
         direction = 2;
+        
+        playerState = 0;
+
+        currentAnimSet = Animation.animSetSpear;
 
         //inventory
         inventory = new Inventory(handler);
@@ -73,72 +68,32 @@ public class Player extends Creature {
 
     @Override
     public void update() {
-        getInput(); //this method just change the distance that we need to move in a movement dont actually change Player coordinate
-        move(); //so we need to call this method to move our Player
-
         handler.getGameCamera().centerOnEntity(this);
 
-        //Attack
-        checkAttacks();
-        
-        //Animation
-        if(this.handler.getKeyManager().hit){
-            currentAnims = hitAnims;
-        }else{
-            currentAnims = walkAnims;
-        }
-        
         //inventory
         inventory.update();
 
-        //Kiểm tra người chơi vào vùng chuyển tiếp giữa 2 map hay chưa
-        if ((int) (this.x + this.width) / Tile.TILE_WIDTH == handler.getMap().getGateX()
-                && (int) (this.y + this.height) / Tile.TILE_HEIGHT == handler.getMap().getGateY()) {
-            PlayState ps = (PlayState) handler.getGame().getPlayState();
-            if (ps.getMapIndex() == 1) {
-                ps.setMapIndex(2);
-                System.out.println("Dang o map 2");
-            } else if (ps.getMapIndex() == 2) {
-                ps.setMapIndex(1);
-                System.out.println("Dang o map 1");
-            }
-        }
-        System.out.println("So luong monster:" + handler.getMap().getEntityManager().getNumMonster());
-        if (handler.getMap().getEntityManager().getNumMonster() == 0
-                && (int) (this.x + this.width) / Tile.TILE_WIDTH == handler.getMap().getEndX()
-                && (int) (this.y + this.height) / Tile.TILE_HEIGHT == handler.getMap().getEndY()) {
-            handler.getGame().setState(new MenuState(handler));
-        }
-        
-        
+        getInput(); //this method just change the distance that we need to move in a movement dont actually change Player coordinate
+        move(); //so we need to call this method to move our Player
+
+        //Attack
+        checkAttacks();
+
+        //Kiểm tra người chơi vào vùng chuyển tiếp giữa 2 map hoặc điểm kết thúc hay chưa
+        checkChangeMap();
+
     }
 
     @Override
     public void render(Graphics g) {
 
-        g.drawImage(getCurrentPlayerFrame(currentAnims), (int) (x - handler.getGameCamera().getxOffset()),
+        g.drawImage(getCurrentPlayerFrame(currentAnimSet[playerState]), (int) (x - handler.getGameCamera().getxOffset()),
                 (int) (y - handler.getGameCamera().getyOffset()), width, height, null);
 
-
-        renderCollisionBounds(g);
         //inventory
         inventory.render(g);
         renderHealth(g, Color.RED);
 
-
-    }
-
-    private BufferedImage getCurrentPlayerFrame(Animation[] anim) {
-        if (xMove > 0) {
-            direction = 1;
-        } else if (xMove < 0) {
-            direction = 3;
-        } else if (yMove < 0) {
-            direction = 0;
-        } else if (yMove > 0) {
-            direction = 2;
-        }
-        return anim[direction].getCurrentFrame();
     }
 
     private void checkAttacks() {
@@ -151,32 +106,32 @@ public class Player extends Creature {
         //end;
 
         Rectangle cb = getCollisionBounds(0f, 0f);//collision Bound
-        Rectangle ar = new Rectangle(); //attack Range
-        int arSize = 20;
-        ar.width = arSize;
-        ar.height = arSize;
+        Rectangle ar = new Rectangle(attackRange, attackRange); //attack Range
 
         if (handler.getKeyManager().hit) {
-            hitAnims[this.direction].update();
+            playerState = 1;
+            currentAnimSet[playerState][this.direction].update();
             if (this.direction == 0) { //up
-                ar.x = cb.x + cb.width / 2 - arSize / 2;
-                ar.y = cb.y - arSize;
+                ar.x = cb.x + cb.width / 2 - attackRange / 2;
+                ar.y = cb.y - attackRange;
 
             } else if (this.direction == 1) { //right
                 ar.x = cb.x + cb.width;
-                ar.y = cb.y + cb.height / 2 - arSize / 2;
+                ar.y = cb.y + cb.height / 2 - attackRange / 2;
 
             } else if (this.direction == 2) {//down
-                ar.x = cb.x + cb.width / 2 - arSize / 2;
+                ar.x = cb.x + cb.width / 2 - attackRange / 2;
                 ar.y = cb.y + cb.height;
 
             } else if (this.direction == 3) { //left
-                ar.x = cb.x - arSize;
-                ar.y = cb.y + cb.height / 2 - arSize / 2;
+                ar.x = cb.x - attackRange;
+                ar.y = cb.y + cb.height / 2 - attackRange / 2;
 
             } else {
                 return;
             }
+        }else{
+            playerState = 0;
         }
         //wait another period of time
         attackTimer = 0;
@@ -193,6 +148,7 @@ public class Player extends Creature {
 
     }
 
+    @Override
     public void hurt(int amt) {
         boolean hasShield = false;
         //Kiem tra xem nguoi choi co ShieldItem hay khong?
@@ -230,6 +186,19 @@ public class Player extends Creature {
 
     }
 
+    private BufferedImage getCurrentPlayerFrame(Animation[] anim) {
+        if (xMove > 0) {
+            direction = 1;
+        } else if (xMove < 0) {
+            direction = 3;
+        } else if (yMove < 0) {
+            direction = 0;
+        } else if (yMove > 0) {
+            direction = 2;
+        }
+        return anim[direction].getCurrentFrame();
+    }
+
     private void getInput() {
         //this method just change the distance that we need to move in a movement dont actually change Player coordinate
         //something to get quicker
@@ -239,19 +208,23 @@ public class Player extends Creature {
 
         if (handler.getKeyManager().up) {
             yMove = -speed;
-            walkAnims[0].update();
+            //walkSwordAnims[0].update();
+            currentAnimSet[playerState][0].update();
         }
         if (handler.getKeyManager().down) {
             yMove = speed;
-            walkAnims[2].update();
+            //walkSwordAnims[2].update();
+            currentAnimSet[playerState][2].update();
         }
         if (handler.getKeyManager().left) {
             xMove = -speed;
-            walkAnims[3].update();
+            //walkSwordAnims[3].update();
+            currentAnimSet[playerState][3].update();
         }
         if (handler.getKeyManager().right) {
             xMove = speed;
-            walkAnims[1].update();
+            //walkSwordAnims[1].update();
+            currentAnimSet[playerState][1].update();
         }
 
         //debug
@@ -263,6 +236,26 @@ public class Player extends Creature {
             System.exit(0);
         }
         //end;
+    }
+
+    private void checkChangeMap() {
+        if ((int) (this.x + this.width) / Tile.TILE_WIDTH == handler.getMap().getGateX()
+                && (int) (this.y + this.height) / Tile.TILE_HEIGHT == handler.getMap().getGateY()) {
+            PlayState ps = (PlayState) handler.getGame().getPlayState();
+            if (ps.getMapIndex() == 1) {
+                ps.setMapIndex(2);
+                System.out.println("Dang o map 2");
+            } else if (ps.getMapIndex() == 2) {
+                ps.setMapIndex(1);
+                System.out.println("Dang o map 1");
+            }
+        }
+        System.out.println("So luong monster:" + handler.getMap().getEntityManager().getNumMonster());
+        if (handler.getMap().getEntityManager().getNumMonster() == 0
+                && (int) (this.x + this.width) / Tile.TILE_WIDTH == handler.getMap().getEndX()
+                && (int) (this.y + this.height) / Tile.TILE_HEIGHT == handler.getMap().getEndY()) {
+            handler.getGame().setState(new MenuState(handler));
+        }
     }
 
     @Override
@@ -280,5 +273,22 @@ public class Player extends Creature {
 
     public void setInventory(Inventory inventory) {
         this.inventory = inventory;
+    }
+
+    public Animation[][] getCurrentAnimSet() {
+        return currentAnimSet;
+    }
+
+    public void setCurrentAnimSet(Animation[][] currentAnimSet) {
+        this.currentAnimSet = currentAnimSet;
+    }
+
+
+    public int getAttackRange() {
+        return attackRange;
+    }
+
+    public void setAttackRange(int attackRange) {
+        this.attackRange = attackRange;
     }
 }

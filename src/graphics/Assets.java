@@ -16,11 +16,14 @@ public class Assets {
 
     public static BufferedImage[] player_up, player_down, player_left, player_right;
     public static BufferedImage[] player_hit_up, player_hit_down, player_hit_left, player_hit_right;
+    public static BufferedImage[] player_up_spear, player_down_spear, player_left_spear, player_right_spear;
+    public static BufferedImage[] player_hit_up_spear, player_hit_down_spear, player_hit_left_spear, player_hit_right_spear;
+
     public static BufferedImage[] monster_up, monster_down, monster_left, monster_right;
     public static BufferedImage[] senior_monster_up, senior_monster_down, senior_monster_left, senior_monster_right;
     public static BufferedImage[] backgroundmenu, btnStart, btnQuit, btnInstructions, btnNewgame, btnQuitGame, bggameover;
 
-    public static BufferedImage grass, tree, coconutTree, water, dollarItem, door, shieldItem, HPItem;
+    public static BufferedImage grass, tree, coconutTree, water, dollarItem, door, shieldItem, HPItem, swordItem;
 
     private static final int WIDTH = 64, HEIGHT = 64;
 
@@ -43,24 +46,49 @@ public class Assets {
 
         }
 
-        Sheet playerhitsheet = new Sheet(ImagesLoader.loadImage("/res/textures/hit_sword.png"));
+        Sheet playerhitsheet = new Sheet(ImagesLoader.loadImage("/res/textures/player_hit_sword.png"));
         player_hit_up = new BufferedImage[6];
         player_hit_down = new BufferedImage[6];
         player_hit_left = new BufferedImage[6];
         player_hit_right = new BufferedImage[6];
 
-        int WIDTH_HIT = WIDTH;
-        int HEIGHT_HIT = HEIGHT;
-
         for (int i = 0; i < 6; i++) {
 
-            player_hit_up[i] = playerhitsheet.crop(WIDTH_HIT * i, 0, WIDTH_HIT, HEIGHT_HIT);
-            player_hit_left[i] = playerhitsheet.crop(WIDTH_HIT * i, HEIGHT_HIT, WIDTH_HIT, HEIGHT_HIT);
-            player_hit_down[i] = playerhitsheet.crop(WIDTH_HIT * i, HEIGHT_HIT * 2, WIDTH_HIT, HEIGHT_HIT);
-            player_hit_right[i] = playerhitsheet.crop(WIDTH_HIT * i, HEIGHT_HIT * 3, WIDTH_HIT, HEIGHT_HIT);
+            player_hit_up[i] = playerhitsheet.crop(WIDTH * i, 0, WIDTH, HEIGHT);
+            player_hit_left[i] = playerhitsheet.crop(WIDTH * i, HEIGHT, WIDTH, HEIGHT);
+            player_hit_down[i] = playerhitsheet.crop(WIDTH * i, HEIGHT * 2, WIDTH, HEIGHT);
+            player_hit_right[i] = playerhitsheet.crop(WIDTH * i, HEIGHT * 3, WIDTH, HEIGHT);
 
         }
 
+        //Player with Spear
+        Sheet playersheet_spear = new Sheet(ImagesLoader.loadImage("/res/textures/player_hit_walk_spear.png"));
+        player_hit_up_spear = new BufferedImage[8];
+        player_hit_down_spear = new BufferedImage[8];
+        player_hit_left_spear = new BufferedImage[8];
+        player_hit_right_spear = new BufferedImage[8];
+
+        player_up_spear = new BufferedImage[9];
+        player_down_spear = new BufferedImage[9];
+        player_left_spear = new BufferedImage[9];
+        player_right_spear = new BufferedImage[9];
+
+        for (int i = 0; i < 8; i++) {
+
+            player_hit_up_spear[i] = playersheet_spear.crop(WIDTH * i, 0, WIDTH, HEIGHT);
+            player_hit_left_spear[i] = playersheet_spear.crop(WIDTH * i, HEIGHT, WIDTH, HEIGHT);
+            player_hit_down_spear[i] = playersheet_spear.crop(WIDTH * i, HEIGHT * 2, WIDTH, HEIGHT);
+            player_hit_right_spear[i] = playersheet_spear.crop(WIDTH * i, HEIGHT * 3, WIDTH, HEIGHT);
+
+        }
+        for (int i = 0; i < 9; i++) {
+
+            player_up_spear[i] = playersheet_spear.crop(WIDTH * i, HEIGHT * 4, WIDTH, HEIGHT);
+            player_left_spear[i] = playersheet_spear.crop(WIDTH * i, HEIGHT * 5, WIDTH, HEIGHT);
+            player_down_spear[i] = playersheet_spear.crop(WIDTH * i, HEIGHT * 6, WIDTH, HEIGHT);
+            player_right_spear[i] = playersheet_spear.crop(WIDTH * i, HEIGHT * 7, WIDTH, HEIGHT);
+
+        }
         //monster map 1
         Sheet monster_sheet = new Sheet(ImagesLoader.loadImage("/res/textures/monster_walk_lv1.png"));
         monster_up = new BufferedImage[9];
@@ -122,6 +150,10 @@ public class Assets {
         //shieldItem
         Sheet shieldItem_sheet = new Sheet(ImagesLoader.loadImage("/res/textures/shield.png"));
         shieldItem = shieldItem_sheet.crop(0, 0, WIDTH, HEIGHT);
+        
+        //swordItem
+        Sheet swordItem_sheet = new Sheet(ImagesLoader.loadImage("/res/textures/sword.png"));
+        swordItem = swordItem_sheet.crop(0,0, WIDTH, HEIGHT);
 
         backgroundmenu = new BufferedImage[2];
         btnStart = new BufferedImage[2];
