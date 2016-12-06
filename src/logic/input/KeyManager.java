@@ -33,21 +33,21 @@ public class KeyManager implements KeyListener {
 
     public void update() {
 
-        for(int i = 0; i< keys.length; i++){
-            if(cantPress[i] && !keys[i]){
-            //cantPress[i] = true that means that value has already returned true for one update() frame
-            // so we can't return true anymore so we cant press this particular key
-            //!keys[i] means this key is no longer being pressed
-            // so they should be able to press it again and justPressed[i] should return true;
+        for (int i = 0; i < keys.length; i++) {
+            if (cantPress[i] && !keys[i]) {
+                //cantPress[i] = true that means that value has already returned true for one update() frame
+                // so we can't return true anymore so we cant press this particular key
+                //!keys[i] means this key is no longer being pressed
+                // so they should be able to press it again and justPressed[i] should return true;
                 cantPress[i] = false;
-            }else if(justPressed[i]){
-            //that mean for one update() method we've already returned true that this key has been pressed 
-            // then we're going to set cantPress[i] = true - we don't want them to press it util they release the key  
-            // and it is no longer just been pressed 
+            } else if (justPressed[i]) {
+                //that mean for one update() method we've already returned true that this key has been pressed 
+                // then we're going to set cantPress[i] = true - we don't want them to press it util they release the key  
+                // and it is no longer just been pressed 
                 cantPress[i] = true;
                 justPressed[i] = false;
             }
-            if(!cantPress[i] && keys[i]){
+            if (!cantPress[i] && keys[i]) {
                 justPressed[i] = true;
             }
         }
@@ -85,7 +85,7 @@ public class KeyManager implements KeyListener {
         }
 
         keys[e.getKeyCode()] = true;
-       
+
     }
 
     @Override
@@ -95,7 +95,6 @@ public class KeyManager implements KeyListener {
         }
         keys[e.getKeyCode()] = false;
 
-        
     }
 
     public boolean keyJustPressed(int keyCode) {

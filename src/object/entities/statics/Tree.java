@@ -36,17 +36,7 @@ public class Tree extends StaticEntity {
     public void render(Graphics g) {
         g.drawImage(Assets.tree, (int) (x - handler.getGameCamera().getxOffset()) - 28,
                 (int) (y - handler.getGameCamera().getyOffset()), width, height, null);
-        //    renderHealth(g);
-        Color temp_color = g.getColor();
-        g.drawRect((int) (x - handler.getGameCamera().getxOffset()) - 15,
-                (int) (y - handler.getGameCamera().getyOffset()) - 30, 100, 10);
-        g.drawString(new Integer(getHealth()).toString(), (int) (x - handler.getGameCamera().getxOffset()) + 87,
-                (int) (y - handler.getGameCamera().getyOffset()) - 20);
-
-        g.setColor(Color.GREEN);
-        g.fillRect((int) (x - handler.getGameCamera().getxOffset()) - 15,
-                (int) (y - handler.getGameCamera().getyOffset()) - 30, getHealth() * 100 / getFull_health(), 10);
-        g.setColor(temp_color);
+    //    renderHealth(g);
     }
 
     @Override

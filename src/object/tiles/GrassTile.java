@@ -12,12 +12,11 @@ import java.awt.image.BufferedImage;
  *
  * @author LOREMSUM
  */
-public class GrassTile extends Tile{
-    
+public class GrassTile extends Tile {
+
     public GrassTile(int id) {
         super(Assets.grass, id);
-        
+
     }
-    
-    
+
 }

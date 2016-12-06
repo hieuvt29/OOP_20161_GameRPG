@@ -18,8 +18,9 @@ public class Assets {
     public static BufferedImage[] player_hit_up, player_hit_down, player_hit_left, player_hit_right;
     public static BufferedImage[] monster_up, monster_down, monster_left, monster_right;
     public static BufferedImage[] senior_monster_up, senior_monster_down, senior_monster_left, senior_monster_right;
+    public static BufferedImage[] backgroundmenu,btnStart,btnQuit,btnInstructions,btnNewgame,btnQuitGame,bggameover;
 
-    public static BufferedImage grass, tree, coconutTree, water, dollarItem, door, shieldItem, HPItem;
+    public static BufferedImage grass, tree, coconut_tree, water, dola, door, shield, HPItem;
 
     private static final int WIDTH = 64, HEIGHT = 64;
 
@@ -103,12 +104,12 @@ public class Assets {
         //trees
         Sheet coconut_tree_sheet = new Sheet(ImagesLoader.loadImage("/res/textures/tree1.png"));
         Sheet tree_sheet = new Sheet(ImagesLoader.loadImage("/res/textures/tree2.png"));
-        coconutTree = coconut_tree_sheet.crop(0, 295, 140, 150);
+        coconut_tree = coconut_tree_sheet.crop(0, 295, 140, 150);
         tree = tree_sheet.crop(545, 0, 175, 200);
 
-        //dolaItem
-        Sheet dollarItem_sheet = new Sheet(ImagesLoader.loadImage("/res/textures/Dola.png"));
-        dollarItem = dollarItem_sheet.crop(0, 0, 33, 34);
+        //dola
+        Sheet dola_sheet = new Sheet(ImagesLoader.loadImage("/res/textures/Dola.png"));
+        dola = dola_sheet.crop(0, 0, 33, 34);
 
         //hp
         Sheet hp_sheet = new Sheet(ImagesLoader.loadImage("/res/textures/heart.png"));
@@ -118,9 +119,31 @@ public class Assets {
         Sheet door_sheet = new Sheet(ImagesLoader.loadImage("/res/textures/door.png"));
         door = door_sheet.crop(0, 0, 66, 61);
 
-        //shieldItem
-        Sheet shieldItem_sheet = new Sheet(ImagesLoader.loadImage("/res/textures/shield.png"));
-        shieldItem = shieldItem_sheet.crop(0, 0, WIDTH, HEIGHT);
+        //shield
+        Sheet shield_sheet = new Sheet(ImagesLoader.loadImage("/res/textures/shield.png"));
+        shield = shield_sheet.crop(0, 0, WIDTH, HEIGHT);
+        
+         backgroundmenu = new BufferedImage[2];
+      btnStart = new BufferedImage[2];
+       btnQuit = new BufferedImage[2];
+       btnNewgame = new BufferedImage[2];
+       btnQuitGame = new BufferedImage[2];
+       btnInstructions = new BufferedImage[2];
+       bggameover = new BufferedImage[2];
+       btnStart[0]= ImagesLoader.loadImage("/res/textures/btPlay1.png");
+       btnStart[1]= ImagesLoader.loadImage("/res/textures/btPlay2.png");
+       btnQuit[0]=ImagesLoader.loadImage("/res/textures/btnQuit.png");
+       btnQuit[1]=ImagesLoader.loadImage("/res/textures/btnQuit.png");
+       backgroundmenu[0]=ImagesLoader.loadImage("/res/textures/backgroundmenu.jpg");
+       backgroundmenu[1]=ImagesLoader.loadImage("/res/textures/backgroundmenu.jpg");
+       btnInstructions[0] = ImagesLoader.loadImage("/res/textures/instruction1.png");
+       btnInstructions[1] = ImagesLoader.loadImage("/res/textures/instruction2.png");
+       btnNewgame[0] = ImagesLoader.loadImage("/res/textures/newgame.png");
+        btnNewgame[1] = ImagesLoader.loadImage("/res/textures/newgame.png");
+        btnQuitGame[0] = ImagesLoader.loadImage("/res/textures/quitgame.png");
+        btnQuitGame[1] = ImagesLoader.loadImage("/res/textures/quitgame.png");
+        bggameover[0] = ImagesLoader.loadImage("/res/textures/bggameover.jpg");
+        bggameover[1] = ImagesLoader.loadImage("/res/textures/bggameover.jpg");
 
     }
 

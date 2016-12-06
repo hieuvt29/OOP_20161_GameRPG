@@ -16,7 +16,7 @@ import object.tiles.Tile;
  */
 public class GameCamera {
 
-    private float xOffset, yOffset; 
+    private float xOffset, yOffset;
     //offset is basically a numbers that tell us how far off do we draw something from its original position
     //private Game game; //we need it for accessing to width and heigth of the Frame;
     private Handler handler;

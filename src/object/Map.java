@@ -7,6 +7,7 @@ package object;
 
 import object.entities.EntityManager;
 import object.entities.creatures.Player;
+import object.entities.statics.CoconutTree;
 import object.entities.statics.Tree;
 import object.items.ItemManager;
 import main.Game;
@@ -18,7 +19,9 @@ import static java.lang.Integer.parseInt;
 import static java.lang.Integer.parseInt;
 import java.util.ArrayList;
 import object.entities.creatures.Monster;
-import object.entities.statics.CoconutTree;
+import object.entities.creatures.SeniorMonster;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
 
 /**
  *
@@ -62,23 +65,23 @@ public class Map {
         entityManager.getPlayer().setX(spawnX * Tile.TILE_WIDTH);
         entityManager.getPlayer().setY(spawnY * Tile.TILE_HEIGHT);
 
-       
-        for(int i =0 ;i < entitiesCoordinate.size(); i++){
+        for (int i = 0; i < entitiesCoordinate.size(); i++) {
             ArrayList<Integer> arr = entitiesCoordinate.get(i);
-             // Thêm các đối tượng static
+            // Thêm các đối tượng static
             int id = arr.get(0);
-            int corX = arr.get(1)*Tile.TILE_WIDTH;
-            int corY = arr.get(2)*Tile.TILE_HEIGHT;
-            
-            if(id == 5){
+            int corX = arr.get(1) * Tile.TILE_WIDTH;
+            int corY = arr.get(2) * Tile.TILE_HEIGHT;
+
+            if (id == 5) {
                 this.entityManager.addEntity(new Tree(handler, corX, corY));
-            }else if(id == 6){
+            } else if (id == 6) {
                 this.entityManager.addEntity(new CoconutTree(handler, corX, corY));
-            }else if(id == 10){
+            } else if (id == 10) {
                 entityManager.addEntity(new Monster(handler, corX, corY));
-                entityManager.setNumMonster(entityManager.getNumMonster() + 1);
+            } else if (id == 11) {
+                entityManager.addEntity(new SeniorMonster(handler, corX, corY));
+
             }
-            
         }
         //init itemManager
         itemManager = new ItemManager(handler);
@@ -110,7 +113,7 @@ public class Map {
                     entityCor.add(y);
                     entitiesCoordinate.add(entityCor);
                 }
-                
+
             }
         }
 

@@ -23,26 +23,27 @@ public class ItemManager {
     public ItemManager(Handler handler) {
         this.handler = handler;
         items = new ArrayList<>();
-        
 
     }
 
-    public void update(){
+    public void update() {
         Iterator<Item> it = items.iterator();
-        while(it.hasNext()){
+        while (it.hasNext()) {
             Item item = it.next();
             item.update();
-            if(item.isPicked_up()){ 
-            //if item is picked up so we'll remove it from map and place it into player inventory
+            if (item.isPicked_up()) {
+                //if item is picked up so we'll remove it from map and place it into player inventory
                 it.remove();
             }
         }
     }
-    public void render(Graphics g){
-        for(Item i: items){
+
+    public void render(Graphics g) {
+        for (Item i : items) {
             i.render(g);
         }
     }
+
     public void addItem(Item i) {
         i.setHandler(handler); //this item doesn't have handler when it was created
         items.add(i);

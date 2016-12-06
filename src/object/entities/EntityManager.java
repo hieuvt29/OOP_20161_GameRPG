@@ -24,7 +24,7 @@ public class EntityManager {
 
     private Handler handler;
     private ArrayList<Entity> entities;
-    
+
     private Comparator<Entity> entityComparator = new Comparator<Entity>() {
         @Override
         public int compare(Entity o1, Entity o2) {
@@ -38,6 +38,8 @@ public class EntityManager {
     public EntityManager(Handler handler, Player player) {
         this.handler = handler;
         this.player = player;
+         
+        numMonster = 60;
 
         entities = new ArrayList<>();
         addEntity(player);
@@ -87,4 +89,5 @@ public class EntityManager {
     public void setNumMonster(int numMonster) {
         this.numMonster = numMonster;
     }
+    
 }

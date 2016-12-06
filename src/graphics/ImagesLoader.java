@@ -16,11 +16,12 @@ import javax.imageio.ImageIO;
  * @author LOREMSUM
  */
 public class ImagesLoader {
+
     /**
      * Just loader images for us
      */
     //image will be stored in BufferedImage type in Java
-    public static BufferedImage loadImage(String path){
+    public static BufferedImage loadImage(String path) {
         try {
             return ImageIO.read(ImagesLoader.class.getResource(path));
         } catch (IOException ex) {
@@ -29,5 +30,4 @@ public class ImagesLoader {
         }
         return null;
     }
-    
 }

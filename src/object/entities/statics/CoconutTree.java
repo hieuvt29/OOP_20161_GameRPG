@@ -6,7 +6,6 @@
 package object.entities.statics;
 
 import graphics.Assets;
-import java.awt.Color;
 import object.items.Item;
 import main.Handler;
 import object.tiles.Tile;
@@ -35,25 +34,14 @@ public class CoconutTree extends StaticEntity {
 
     @Override
     public void render(Graphics g) {
-        g.drawImage(Assets.coconutTree, (int) (x - handler.getGameCamera().getxOffset()) - 40,
+        g.drawImage(Assets.coconut_tree, (int) (x - handler.getGameCamera().getxOffset()) - 40,
                 (int) (y - handler.getGameCamera().getyOffset()), width, height, null);
-        //    renderHealth(g);
-        Color temp_color = g.getColor();
-        g.drawRect((int) (x - handler.getGameCamera().getxOffset()) - 15,
-                (int) (y - handler.getGameCamera().getyOffset()) - 30, 100, 10);
-        g.drawString(new Integer(getHealth()).toString(), (int) (x - handler.getGameCamera().getxOffset()) + 87,
-                (int) (y - handler.getGameCamera().getyOffset()) - 20);
-
-        g.setColor(Color.GREEN);
-        g.fillRect((int) (x - handler.getGameCamera().getxOffset()) - 15,
-                (int) (y - handler.getGameCamera().getyOffset()) - 30, getHealth() * 100 / getFull_health(), 10);
-        g.setColor(temp_color);
-
+    //    renderHealth(g);
     }
 
     @Override
     public void die() {
-        handler.getMap().getItemManager().addItem(Item.dollarItem.createNew((int) x, (int) y));
+        handler.getMap().getItemManager().addItem(Item.dolaItem.createNew((int) x, (int) y));
     }
 
 }
