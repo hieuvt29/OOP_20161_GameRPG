@@ -22,8 +22,8 @@ public abstract class Item {
     //If we have some items that have special abilities and things INSTEAD OF DOING THIS
     //we can always just override (extends) this Item class to make new class and create new instances of specific item class
     public static Item[] items = new Item[256]; //this array store essentially 1 instance of every single item in our game with different id
-    public static Item HPItem = new HpItem("HPItem", 0);
-    public static Item dolaItem = new DolaItem("Dola", 2);
+    public static Item HPItem = new HPItem("HPItem", 0);
+    public static Item dolaItem = new DolaItem("Dollar", 2);
 
     //THIS PART IS OUR CLASS
     public static final int ITEM_WIDTH = 32, ITEM_HEIGHT = 32;

@@ -43,8 +43,8 @@ public class Inventory {
             Iterator<Item> it = inventoryItems.iterator();
             while (it.hasNext()) {
                 Item i = it.next();
-                if (i instanceof HpItem && i.getCount() > 0) {
-                    handler.getMap().getEntityManager().getPlayer().increaseHP(((HpItem) i).getHPAmount());
+                if (i instanceof HPItem && i.getCount() > 0) {
+                    handler.getMap().getEntityManager().getPlayer().increaseHP(((HPItem) i).getHPAmount());
                     i.setCount(i.getCount() - 1);
                     if (i.getCount() == 0) {
                         it.remove();
@@ -64,7 +64,7 @@ public class Inventory {
             return;
         }
         for (Item i : this.inventoryItems) {
-            if (i instanceof HpItem) {
+            if (i instanceof HPItem) {
                 i.render(g, 0, 0);
             } else if (i instanceof DolaItem) {
                 i.render(g, 44, 0);
