@@ -29,7 +29,7 @@ public abstract class Entity {
 
     protected float x, y;// Toa do cua thuc the
     protected int width, height; // Kich thuoc cua thuc the
-    protected Handler handler; 
+    protected Handler handler;
     protected Rectangle bounds; // Hinh bao xac dinh collision
     protected boolean active = true; // Trang thai ton tai cua thuc the
 
@@ -43,11 +43,11 @@ public abstract class Entity {
             die();
         }
     }
-    
-    public void increaseHP (int Hp){
-        if(health + Hp <= full_health){
+
+    public void increaseHP(int Hp) {
+        if (health + Hp <= full_health) {
             health += Hp;
-        }else{
+        } else {
             health = full_health;
         }
     }
@@ -66,7 +66,7 @@ public abstract class Entity {
 
     public boolean checkEntityCollisions(float xOffset, float yOffset) {
         //loop through every entity we have in Map2 and check whether there are any other entities have collision with this entity
-        
+
         for (Entity e : handler.getMap().getEntityManager().getEntities()) {
             if (e.equals(this)) {
                 continue;
@@ -80,6 +80,31 @@ public abstract class Entity {
 
     public Rectangle getCollisionBounds(float xOffset, float yOffset) {
         return new Rectangle((int) (x + bounds.x + xOffset), (int) (y + bounds.y + yOffset), bounds.width, bounds.height);
+    }
+
+    protected void renderHealth(Graphics g, Color color) {
+        Color temp_color = g.getColor();
+        g.drawRect((int) (x - handler.getGameCamera().getxOffset()) - 20,
+                (int) (y - handler.getGameCamera().getyOffset()) - 20, 100, 10);
+        g.drawString(new Integer(getHealth()).toString(), (int) (x - handler.getGameCamera().getxOffset()) + 82,
+                (int) (y - handler.getGameCamera().getyOffset()) - 10);
+
+        g.setColor(color);
+        g.fillRect((int) (x - handler.getGameCamera().getxOffset()) - 20,
+                (int) (y - handler.getGameCamera().getyOffset()) - 20, getHealth() * 100 / getFull_health(), 10);
+        g.setColor(temp_color);
+    }
+
+    protected void renderCollisionBounds(Graphics g) {
+
+        Color c = g.getColor();
+        g.setColor(Color.red);
+        g.fillRect((int) (x + bounds.x - handler.getGameCamera().getxOffset()),
+                (int) (y + bounds.y - handler.getGameCamera().getyOffset()),
+                bounds.width,
+                bounds.height);
+        g.setColor(c);
+
     }
 
     public float getX() {
@@ -142,19 +167,6 @@ public abstract class Entity {
         this.full_health = full_health;
     }
 
-    protected void renderHealth(Graphics g) {
-        Color temp_color = g.getColor();
-        g.drawRect((int) (x - handler.getGameCamera().getxOffset()) - 20,
-                (int) (y - handler.getGameCamera().getyOffset()) - 20, 100, 10);
-        g.drawString(new Integer(getHealth()).toString(), (int) (x - handler.getGameCamera().getxOffset())+ 82, 
-                (int) (y - handler.getGameCamera().getyOffset()) - 10);
-       
-        g.setColor(Color.RED);
-        g.fillRect((int) (x - handler.getGameCamera().getxOffset()) - 20,
-                (int) (y - handler.getGameCamera().getyOffset()) - 20, getHealth() * 100 / getFull_health(), 10);
-        g.setColor(temp_color);
-    }
-    
     public int getAttackAmount() {
         return attackAmount;
     }

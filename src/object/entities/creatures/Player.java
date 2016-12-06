@@ -29,8 +29,7 @@ import object.tiles.Tile;
 public class Player extends Creature {
 
     //Animation
-    private Animation[] walkAnims;
-    private Animation[] hitAnims;
+    private Animation[] currentAnims, walkAnims, hitAnims;
     private int direction; // 0- up, 1 - right, 2- down, 3 - left
 
     //Attack control
@@ -46,7 +45,7 @@ public class Player extends Creature {
         attackAmount = 10;
 
         //Bounding rectangle
-        bounds.x = 16;
+        bounds.x = 32;
         bounds.y = 32;
         bounds.width = 32;
         bounds.height = 32;
@@ -81,7 +80,14 @@ public class Player extends Creature {
 
         //Attack
         checkAttacks();
-
+        
+        //Animation
+        if(this.handler.getKeyManager().hit){
+            currentAnims = hitAnims;
+        }else{
+            currentAnims = walkAnims;
+        }
+        
         //inventory
         inventory.update();
 
@@ -100,41 +106,25 @@ public class Player extends Creature {
         System.out.println("So luong monster:" + handler.getMap().getEntityManager().getNumMonster());
         if (handler.getMap().getEntityManager().getNumMonster() == 0
                 && (int) (this.x + this.width) / Tile.TILE_WIDTH == handler.getMap().getEndX()
-                && (int) (this.y + this.height) / Tile.TILE_HEIGHT == handler.getMap().getEndY()) 
-        {
+                && (int) (this.y + this.height) / Tile.TILE_HEIGHT == handler.getMap().getEndY()) {
             handler.getGame().setState(new MenuState(handler));
         }
-
+        
+        
     }
 
     @Override
     public void render(Graphics g) {
-        if (handler.getKeyManager().hit) {
-            g.drawImage(getCurrentPlayerFrame(hitAnims), (int) (x - handler.getGameCamera().getxOffset()) - width + 10,
-                    (int) (y - handler.getGameCamera().getyOffset()) - height - 10, width * 3, height * 3, null);
-        } else {
-            g.drawImage(getCurrentPlayerFrame(walkAnims), (int) (x - handler.getGameCamera().getxOffset()),
-                    (int) (y - handler.getGameCamera().getyOffset()), width, height, null);
-        }
 
-//      //debug
-//        g.setColor(Color.red);
-//        g.fillRect((int)(x + bounds.x - handler.getGameCamera().getxOffset()), 
-//                (int)(y + bounds.y - handler.getGameCamera().getyOffset()),
-//                bounds.width,
-//                bounds.height);
+        g.drawImage(getCurrentPlayerFrame(currentAnims), (int) (x - handler.getGameCamera().getxOffset()),
+                (int) (y - handler.getGameCamera().getyOffset()), width, height, null);
 
+
+        renderCollisionBounds(g);
         //inventory
         inventory.render(g);
-        renderHealth(g);
-//        Color temp_color = g.getColor();
-//        g.drawRect((int) (x - handler.getGameCamera().getxOffset()) - 10,
-//                (int) (y - handler.getGameCamera().getyOffset()) - 15, 100, 10);
-//        g.setColor(Color.RED);
-//        g.fillRect((int) (x - handler.getGameCamera().getxOffset()) - 10,
-//                (int) (y - handler.getGameCamera().getyOffset()) - 15, getHealth()* 100 / getFull_health() , 10);
-//        System.out.println(getHealth() / getFull_health() * 100);
-//        g.setColor(temp_color);
+        renderHealth(g, Color.RED);
+
 
     }
 
@@ -207,20 +197,20 @@ public class Player extends Creature {
         boolean hasShield = false;
         //Kiem tra xem nguoi choi co ShieldItem hay khong?
         Iterator<Item> it = this.getInventory().getInventoryItems().iterator();
-        while(it.hasNext()){
+        while (it.hasNext()) {
             Item i = it.next();
             if (i instanceof ShieldItem) {
                 hasShield = true;
                 //Neu co ShieldItem thi tru HP cua Shield truoc
                 //tru bao gio het ShieldItem trong inventory moi tru den HP cua nguoi choi
                 int value = ((ShieldItem) i).getDefenceAmount() - amt;
-                if(value > 0 ){
+                if (value > 0) {
                     ((ShieldItem) i).setDefenceAmount(value);
-                }else{
+                } else {
                     int numShield = i.getCount() - 1;
-                    if(numShield > 0){
+                    if (numShield > 0) {
                         ((ShieldItem) i).setDefenceAmount(((ShieldItem) i).FullDefenceAmount + value);
-                    }else{
+                    } else {
                         it.remove();
                         health += value;
                     }
@@ -228,7 +218,7 @@ public class Player extends Creature {
                 break;
             }
         }
-        if(!hasShield){
+        if (!hasShield) {
             //Kiem tra neu khong co ShieldItem trong inventory thi tru HP cua nguoi choi
             health -= amt;
         }
@@ -237,7 +227,7 @@ public class Player extends Creature {
             die();
         }
         System.out.println("Health: " + health);
-        
+
     }
 
     private void getInput() {

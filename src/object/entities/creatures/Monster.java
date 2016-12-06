@@ -7,6 +7,7 @@ package object.entities.creatures;
  */
 import graphics.Animation;
 import graphics.Assets;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -73,7 +74,7 @@ public class Monster extends Creature {
         g.drawImage(getCurrentPlayerFrame(walkAnims), (int) (x - handler.getGameCamera().getxOffset()),
                 (int) (y - handler.getGameCamera().getyOffset()), width, height, null);
 
-        renderHealth(g);
+        renderHealth(g, Color.RED);
     }
 
     private BufferedImage getCurrentPlayerFrame(Animation[] anim) {

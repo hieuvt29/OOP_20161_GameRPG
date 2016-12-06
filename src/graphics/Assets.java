@@ -43,14 +43,14 @@ public class Assets {
 
         }
 
-        Sheet playerhitsheet = new Sheet(ImagesLoader.loadImage("/res/textures/hit_lv1_192x192.png"));
+        Sheet playerhitsheet = new Sheet(ImagesLoader.loadImage("/res/textures/hit_sword.png"));
         player_hit_up = new BufferedImage[6];
         player_hit_down = new BufferedImage[6];
         player_hit_left = new BufferedImage[6];
         player_hit_right = new BufferedImage[6];
 
-        int WIDTH_HIT = WIDTH * 3;
-        int HEIGHT_HIT = HEIGHT * 3;
+        int WIDTH_HIT = WIDTH;
+        int HEIGHT_HIT = HEIGHT;
 
         for (int i = 0; i < 6; i++) {
 
@@ -107,8 +107,8 @@ public class Assets {
         coconutTree = coconut_tree_sheet.crop(0, 295, 140, 150);
         tree = tree_sheet.crop(545, 0, 175, 200);
 
-        //dolaItem
-        Sheet dollarItem_sheet = new Sheet(ImagesLoader.loadImage("/res/textures/Dola.png"));
+        //DollarItem
+        Sheet dollarItem_sheet = new Sheet(ImagesLoader.loadImage("/res/textures/Dollar.png"));
         dollarItem = dollarItem_sheet.crop(0, 0, 33, 34);
 
         //hp
