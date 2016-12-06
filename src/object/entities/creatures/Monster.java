@@ -66,14 +66,14 @@ public class Monster extends Creature {
             chase(playerX, playerY);
             move();
             checkAttacks();
-        }
+        } 
     }
 
     @Override
     public void render(Graphics g) {
 
-        g.drawImage(getCurrentPlayerFrame(hitAnims), (int) (x - handler.getGameCamera().getxOffset()) - width,
-                (int) (y - handler.getGameCamera().getyOffset()) - height, width * 3, height * 3, null);
+        g.drawImage(getCurrentPlayerFrame(hitAnims), (int) (x - handler.getGameCamera().getxOffset()),
+                (int) (y - handler.getGameCamera().getyOffset()) , width, height, null);
 
         renderHealth(g);
     }
@@ -132,7 +132,7 @@ public class Monster extends Creature {
         //end;
 
         for (Entity e : handler.getMap().getEntityManager().getEntities()) {
-            if (e.equals(this)) {
+            if (e.equals(this) || e instanceof Monster || e instanceof StaticEntity) {
                 continue;
             } else if (e.getCollisionBounds(0f, 0f).intersects(ar)) {
                 e.hurt(attackAmount);
@@ -176,13 +176,35 @@ public class Monster extends Creature {
         handler.getMap().getEntityManager().setNumMonster(handler.getMap().getEntityManager().getNumMonster() - 1);
     }
 
-    private float[] randomPosition() {
-        float x = (float) (Math.random() * handler.getMap().getWidth() + 1);
-        float y = (float) (Math.random() * handler.getMap().getHeight() + 1);
-        float[] res = new float[2];
-        res[0] = x;
-        res[1] = y;
-        return res;
+    private void randomMove() {
+        //check for waiting time
+        attackTimer += System.currentTimeMillis() - lastAttackTimer;
+        lastAttackTimer = System.currentTimeMillis();
+        if (attackTimer < attackCoolDown) {
+            return;
+        }
+        int d = (int) Math.round(Math.random() * 3);
+        switch (d) {
+            case 0:
+                xMove = 1;
+                hitAnims[0].update();
+                break;
+            case 1:
+                yMove = 1;
+                hitAnims[1].update();
+                break;
+            case 2:
+                xMove = -1;
+                hitAnims[2].update();
+                break;
+            case 3:
+                yMove = -1;
+                hitAnims[3].update();
+                break;
+        }
+        //wait another period of time
+        attackTimer = 0;
+        //end;
 
     }
 

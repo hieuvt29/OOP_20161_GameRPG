@@ -8,16 +8,20 @@ package object.entities.creatures;
 import object.entities.Entity;
 import graphics.Animation;
 import graphics.Assets;
-import object.items.Inventory;
 import main.Game;
 import main.Handler;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.Iterator;
 import main.states.MenuState;
 import main.states.PlayState;
+import object.items.Inventory;
+import object.items.Item;
+import object.items.ShieldItem;
 import object.tiles.Tile;
+
 /**
  *
  * @author LOREMSUM
@@ -25,7 +29,6 @@ import object.tiles.Tile;
 public class Player extends Creature {
 
     //Animation
-    
     private Animation[] walkAnims;
     private Animation[] hitAnims;
     private int direction; // 0- up, 1 - right, 2- down, 3 - left
@@ -38,11 +41,10 @@ public class Player extends Creature {
 
     public Player(Handler handler, float x, float y) {
         super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
-       
+
         //Attack
         attackAmount = 10;
-        
-        
+
         //Bounding rectangle
         bounds.x = 16;
         bounds.y = 32;
@@ -53,17 +55,16 @@ public class Player extends Creature {
         speed = 2f;
         walkAnims = new Animation[4];
         hitAnims = new Animation[4];
-        
+
         walkAnims[0] = new Animation(100, Assets.player_up);
         walkAnims[1] = new Animation(100, Assets.player_right);
         walkAnims[2] = new Animation(100, Assets.player_down);
         walkAnims[3] = new Animation(100, Assets.player_left);
-        
+
         hitAnims[0] = new Animation(100, Assets.player_hit_up);
         hitAnims[1] = new Animation(100, Assets.player_hit_right);
         hitAnims[2] = new Animation(100, Assets.player_hit_down);
         hitAnims[3] = new Animation(100, Assets.player_hit_left);
-        
 
         direction = 2;
 
@@ -83,42 +84,39 @@ public class Player extends Creature {
 
         //inventory
         inventory.update();
-        
+
         //Kiểm tra người chơi vào vùng chuyển tiếp giữa 2 map hay chưa
-        
-        if( (int)(this.x + this.width)/Tile.TILE_WIDTH  == handler.getMap().getGateX() && 
-            (int)(this.y+this.height)/Tile.TILE_HEIGHT == handler.getMap().getGateY())
-        {
+        if ((int) (this.x + this.width) / Tile.TILE_WIDTH == handler.getMap().getGateX()
+                && (int) (this.y + this.height) / Tile.TILE_HEIGHT == handler.getMap().getGateY()) {
             PlayState ps = (PlayState) handler.getGame().getPlayState();
-            if(ps.getMapIndex() == 1){
+            if (ps.getMapIndex() == 1) {
                 ps.setMapIndex(2);
                 System.out.println("Dang o map 2");
-            }else if(ps.getMapIndex() == 2){
+            } else if (ps.getMapIndex() == 2) {
                 ps.setMapIndex(1);
                 System.out.println("Dang o map 1");
             }
         }
         System.out.println("So luong monster:" + handler.getMap().getEntityManager().getNumMonster());
-        if(handler.getMap().getEntityManager().getNumMonster() == 0 && 
-           (int)(this.x + this.width)/Tile.TILE_WIDTH == handler.getMap().getEndX()&& 
-           (int)(this.y+this.height)/Tile.TILE_HEIGHT == handler.getMap().getEndY())
+        if (handler.getMap().getEntityManager().getNumMonster() == 0
+                && (int) (this.x + this.width) / Tile.TILE_WIDTH == handler.getMap().getEndX()
+                && (int) (this.y + this.height) / Tile.TILE_HEIGHT == handler.getMap().getEndY()) 
         {
             handler.getGame().setState(new MenuState(handler));
         }
 
-        
     }
 
     @Override
     public void render(Graphics g) {
-        if(handler.getKeyManager().hit){
-            g.drawImage(getCurrentPlayerFrame(hitAnims), (int) (x - handler.getGameCamera().getxOffset()) - width,
-                (int) (y - handler.getGameCamera().getyOffset()) - height, width*3, height*3, null);
-        }else{
+        if (handler.getKeyManager().hit) {
+            g.drawImage(getCurrentPlayerFrame(hitAnims), (int) (x - handler.getGameCamera().getxOffset()),
+                    (int) (y - handler.getGameCamera().getyOffset()), width, height, null);
+        } else {
             g.drawImage(getCurrentPlayerFrame(walkAnims), (int) (x - handler.getGameCamera().getxOffset()),
-                (int) (y - handler.getGameCamera().getyOffset()), width, height, null);
+                    (int) (y - handler.getGameCamera().getyOffset()), width, height, null);
         }
-        
+
 //      //debug
 //        g.setColor(Color.red);
 //        g.fillRect((int)(x + bounds.x - handler.getGameCamera().getxOffset()), 
@@ -146,10 +144,10 @@ public class Player extends Creature {
         } else if (xMove < 0) {
             direction = 3;
         } else if (yMove < 0) {
-            direction =0;
+            direction = 0;
         } else if (yMove > 0) {
             direction = 2;
-        } 
+        }
         return anim[direction].getCurrentFrame();
     }
 
@@ -173,19 +171,19 @@ public class Player extends Creature {
             if (this.direction == 0) { //up
                 ar.x = cb.x + cb.width / 2 - arSize / 2;
                 ar.y = cb.y - arSize;
-                
+
             } else if (this.direction == 1) { //right
                 ar.x = cb.x + cb.width;
                 ar.y = cb.y + cb.height / 2 - arSize / 2;
-                
+
             } else if (this.direction == 2) {//down
                 ar.x = cb.x + cb.width / 2 - arSize / 2;
                 ar.y = cb.y + cb.height;
-                
+
             } else if (this.direction == 3) { //left
                 ar.x = cb.x - arSize;
                 ar.y = cb.y + cb.height / 2 - arSize / 2;
-                
+
             } else {
                 return;
             }
@@ -203,6 +201,43 @@ public class Player extends Creature {
             }
         }
 
+    }
+
+    public void hurt(int amt) {
+        boolean hasShield = false;
+        //Kiem tra xem nguoi choi co ShieldItem hay khong?
+        Iterator<Item> it = this.getInventory().getInventoryItems().iterator();
+        while(it.hasNext()){
+            Item i = it.next();
+            if (i instanceof ShieldItem) {
+                hasShield = true;
+                //Neu co ShieldItem thi tru HP cua Shield truoc
+                //tru bao gio het ShieldItem trong inventory moi tru den HP cua nguoi choi
+                int value = ((ShieldItem) i).getDefenceAmount() - amt;
+                if(value > 0 ){
+                    ((ShieldItem) i).setDefenceAmount(value);
+                }else{
+                    int numShield = i.getCount() - 1;
+                    if(numShield > 0){
+                        ((ShieldItem) i).setDefenceAmount(((ShieldItem) i).FullDefenceAmount + value);
+                    }else{
+                        it.remove();
+                        health += value;
+                    }
+                }
+                break;
+            }
+        }
+        if(!hasShield){
+            //Kiem tra neu khong co ShieldItem trong inventory thi tru HP cua nguoi choi
+            health -= amt;
+        }
+        if (health <= 0) {
+            active = false;
+            die();
+        }
+        System.out.println("Health: " + health);
+        
     }
 
     private void getInput() {

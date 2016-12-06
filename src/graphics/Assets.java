@@ -20,7 +20,7 @@ public class Assets {
     public static BufferedImage grass, tree, coconut_tree, water,
             monster1, monster2,
             wood, gold, rock,
-            HPItem;
+            HPItem, ShieldItem;
 
     private static final int WIDTH = 64, HEIGHT = 64;
 
@@ -43,14 +43,14 @@ public class Assets {
 
         }
 
-        Sheet playerhitsheet = new Sheet(ImagesLoader.loadImage("/res/textures/hit_lv1_192x192.png"));
+        Sheet playerhitsheet = new Sheet(ImagesLoader.loadImage("/res/textures/hit_large_lv1_64x64.png"));
         player_hit_up = new BufferedImage[6];
         player_hit_down = new BufferedImage[6];
         player_hit_left = new BufferedImage[6];
         player_hit_right = new BufferedImage[6];
 
-        int WIDTH_HIT = WIDTH * 3;
-        int HEIGHT_HIT = HEIGHT * 3;
+        int WIDTH_HIT = WIDTH ;
+        int HEIGHT_HIT = HEIGHT;
 
         for (int i = 0; i < 6; i++) {
             
@@ -90,6 +90,8 @@ public class Assets {
         
        Sheet ItemSheet  = new Sheet(ImagesLoader.loadImage("/res/textures/34x34icons.png"));
        HPItem = ItemSheet.crop(0, 0, 34, 34);
+       
+       ShieldItem = ItemSheet.crop(34 * 7, 34 * 7, 34, 34);
     }
 
 }

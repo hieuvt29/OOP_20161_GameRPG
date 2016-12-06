@@ -76,7 +76,7 @@ public class Map {
                 this.entityManager.addEntity(new Coconut_tree(handler, corX, corY));
             }else if(id == 10){
                 entityManager.addEntity(new Monster(handler, corX, corY));
-                
+                entityManager.setNumMonster(entityManager.getNumMonster() + 1);
             }
             
         }

@@ -21,6 +21,11 @@ public abstract class Entity {
 
     protected int health;
     protected int attackAmount;
+    protected int defenceAmount;
+
+    public void setDefenceAmount(int defenceAmount) {
+        this.defenceAmount = defenceAmount;
+    }
 
     protected float x, y;// Toa do cua thuc the
     protected int width, height; // Kich thuoc cua thuc the
@@ -150,4 +155,16 @@ public abstract class Entity {
         g.setColor(temp_color);
     }
     
+    public int getAttackAmount() {
+        return attackAmount;
+    }
+
+    public void setAttackAmount(int attackAmount) {
+        this.attackAmount = attackAmount;
+    }
+
+    public int getDefenceAmount() {
+        return defenceAmount;
+    }
+
 }

@@ -6,6 +6,7 @@
 package object.items;
 
 import graphics.Assets;
+import java.awt.Color;
 import main.Handler;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -26,7 +27,7 @@ public abstract class Item {
     public static Item HPItem = new HPItem("HPItem", 0);
     public static Item rockItem = new RockItem("Rock", 1);
     public static Item goldItem = new GoldItem("Gold", 2);
-    
+    public static Item shieldItem = new ShieldItem("Shield", 3);
     
     //THIS PART IS OUR CLASS
     public static final int ITEM_WIDTH = 32,
@@ -82,14 +83,13 @@ public abstract class Item {
     
     public void render(Graphics g, int x, int y){
         g.drawImage(texture, x, y, ITEM_WIDTH, ITEM_HEIGHT,  null);
-        g.drawString(new Integer(this.getCount()).toString(), x+ this.bounds.width, y + this.bounds.height);
+        //In ra so luong cua Item do trong inventory
+        g.drawString(new Integer(this.getCount()).toString(), x, y + this.bounds.height);
+
     }
 
     public abstract Item createNew(int x, int y);
 
-    public int getId() {
-        return id;
-    }
     public void setPosition(int x, int y){
         //Sau khi được in ra bản đồ thì item mới có hình bao xác định collision
         this.x = x;
@@ -98,6 +98,10 @@ public abstract class Item {
         bounds.y = y;
     }
     //Getters and setters
+    
+    public int getId() {
+        return id;
+    }
     public int getX() {
         return x;
     }

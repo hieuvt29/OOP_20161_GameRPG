@@ -28,6 +28,14 @@ public class Inventory {
 
     }
 
+    public ArrayList<Item> getInventoryItems() {
+        return inventoryItems;
+    }
+
+    public void setInventoryItems(ArrayList<Item> inventoryItems) {
+        this.inventoryItems = inventoryItems;
+    }
+
     public void update() {
         if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_E)) {
             active = !active;
@@ -35,6 +43,7 @@ public class Inventory {
         if (!active) {
             return;
         }
+        //Su dung HPItem
         if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_1)) {
             //Kiểm tra điều kiện nếu còn HPItem trong inventory
             // TĂng máu cho người chơi
@@ -49,10 +58,26 @@ public class Inventory {
                     if (i.getCount() == 0) {
                         it.remove();
                     }
+                    break;
                 }
             }
 
         }
+        //Su dung GoldItem
+        if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_2)){
+            // NẾu bấm 2, kiểm tra số lượng vàng, nếu có lớn 10 thì đổi 10 vàng thành 1 khiên
+            Iterator<Item> it = inventoryItems.iterator();
+            while(it.hasNext()){
+                Item i = it.next();
+                if(i instanceof GoldItem && i.getCount() > 10){
+                    i.setCount(i.getCount() - 10);
+                    inventoryItems.add(Item.shieldItem);
+                    break;
+                }
+            }
+        }
+      
+        
         System.out.println("INVENTORY: ");
         for (Item i : inventoryItems) {
             System.out.println(i.getName() + ": " + i.getCount());
@@ -66,8 +91,10 @@ public class Inventory {
         for (Item i : this.inventoryItems) {
             if (i instanceof HPItem) {
                 i.render(g, 0, 0);
-            } else if (i instanceof Weapon) {
-                i.render(g, 33, 0);
+            } else if (i instanceof GoldItem) {
+                i.render(g, Item.ITEM_WIDTH , 0);
+            }else if (i instanceof ShieldItem){
+                i.render(g, Item.ITEM_WIDTH * 2, 0);
             }
         }
     }
