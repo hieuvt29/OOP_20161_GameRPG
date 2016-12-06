@@ -26,8 +26,9 @@ public abstract class Item {
     public static Item[] items = new Item[256]; //this array store essentially 1 instance of every single item in our game with different id
     public static Item HPItem = new HPItem("HPItem", 0);
     public static Item rockItem = new RockItem("Rock", 1);
-    public static Item goldItem = new GoldItem("Gold", 2);
+    public static Item dollarItem = new DollarItem("Shield", 2);
     public static Item shieldItem = new ShieldItem("Shield", 3);
+    
     
     //THIS PART IS OUR CLASS
     public static final int ITEM_WIDTH = 32,

@@ -17,19 +17,19 @@ import java.util.logging.Logger;
  * @author LOREMSUM
  */
 public class Utils {
-    
-    public static String loadFileAsString(String path){
+
+    public static String loadFileAsString(String path) {
         StringBuilder sb = new StringBuilder();
-        
+
         try {
             BufferedReader br = new BufferedReader(new FileReader(path));
             String line;
-            while((line = br.readLine()) != null)
+            while ((line = br.readLine()) != null) {
                 sb.append(line + '\n');
-            
+            }
+
             br.close();
-            
-            
+
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -37,5 +37,5 @@ public class Utils {
         }
         return sb.toString();
     }
-  
+
 }

@@ -12,10 +12,10 @@ import java.awt.image.BufferedImage;
  *
  * @author user
  */
-public class Gate extends Tile{
-    
-    public Gate(int id) {
-        super(Assets.rock, id);
+public class GateTile extends Tile {
+
+    public GateTile(int id) {
+        super(Assets.door, id);
     }
-    
+
 }

@@ -12,6 +12,7 @@ import main.states.State;
  * @author LOREMSUM
  */
 public class GameStatesManager {
+
     private static State currentState = null;
 
     public static State getCurrentState() {
@@ -21,5 +22,5 @@ public class GameStatesManager {
     public static void setCurrentState(State currentState) {
         GameStatesManager.currentState = currentState;
     }
-    
+
 }

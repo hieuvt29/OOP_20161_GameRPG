@@ -22,12 +22,12 @@ import java.awt.Graphics;
 public class MenuState extends State {
 
     private UIManager uiManager;
-    
+
     public MenuState(Handler handler) {
         super(handler);
         uiManager = new UIManager(handler);
         handler.getMouseManager().setUiManager(uiManager);
-        
+
         uiManager.addObject(new UIImageButton(100, 100, 128, 128, Assets.player_down, new ClickListener() {
             @Override
             public void onClick() {
@@ -35,9 +35,7 @@ public class MenuState extends State {
                 handler.getGame().setState(handler.getGame().getPlayState());
             }
         }));
-        
-        
-        
+
     }
 
     @Override
@@ -52,7 +50,7 @@ public class MenuState extends State {
         g.fillRect(0, 0, handler.getGame().getWidth(), handler.getGame().getHeight());
         g.setColor(t);
         uiManager.render(g);
-       
+
     }
-    
+
 }

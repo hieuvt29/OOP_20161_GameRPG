@@ -13,14 +13,14 @@ import java.awt.image.BufferedImage;
  * @author LOREMSUM
  */
 public class WaterTile extends Tile {
-    
+
     public WaterTile(int id) {
         super(Assets.water, id);
     }
-    
+
     @Override
-    public boolean isSolid(){
+    public boolean isSolid() {
         return true;
     }
-    
+
 }

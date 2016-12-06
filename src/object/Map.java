@@ -7,7 +7,6 @@ package object;
 
 import object.entities.EntityManager;
 import object.entities.creatures.Player;
-import object.entities.statics.Coconut_tree;
 import object.entities.statics.Tree;
 import object.items.ItemManager;
 import main.Game;
@@ -19,6 +18,7 @@ import static java.lang.Integer.parseInt;
 import static java.lang.Integer.parseInt;
 import java.util.ArrayList;
 import object.entities.creatures.Monster;
+import object.entities.statics.CoconutTree;
 
 /**
  *
@@ -73,7 +73,7 @@ public class Map {
             if(id == 5){
                 this.entityManager.addEntity(new Tree(handler, corX, corY));
             }else if(id == 6){
-                this.entityManager.addEntity(new Coconut_tree(handler, corX, corY));
+                this.entityManager.addEntity(new CoconutTree(handler, corX, corY));
             }else if(id == 10){
                 entityManager.addEntity(new Monster(handler, corX, corY));
                 entityManager.setNumMonster(entityManager.getNumMonster() + 1);

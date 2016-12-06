@@ -110,8 +110,8 @@ public class Player extends Creature {
     @Override
     public void render(Graphics g) {
         if (handler.getKeyManager().hit) {
-            g.drawImage(getCurrentPlayerFrame(hitAnims), (int) (x - handler.getGameCamera().getxOffset()),
-                    (int) (y - handler.getGameCamera().getyOffset()), width, height, null);
+            g.drawImage(getCurrentPlayerFrame(hitAnims), (int) (x - handler.getGameCamera().getxOffset()) - width + 10,
+                    (int) (y - handler.getGameCamera().getyOffset()) - height - 10, width * 3, height * 3, null);
         } else {
             g.drawImage(getCurrentPlayerFrame(walkAnims), (int) (x - handler.getGameCamera().getxOffset()),
                     (int) (y - handler.getGameCamera().getyOffset()), width, height, null);

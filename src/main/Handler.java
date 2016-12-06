@@ -16,34 +16,35 @@ import object.Map;
  * @author LOREMSUM
  */
 public class Handler {
+
     private Game game;
     private Map map;
     private State currentState;
-    
-    public Handler(Game game){
+
+    public Handler(Game game) {
         this.game = game;
     }
-    
-    public int getWidth(){
+
+    public int getWidth() {
         return game.getWidth();
     }
-    
-    public int getHeight(){
+
+    public int getHeight() {
         return game.getHeight();
     }
-    
-    public GameCamera getGameCamera(){
+
+    public GameCamera getGameCamera() {
         return game.getGameCamera();
     }
-    
-    public KeyManager getKeyManager(){
+
+    public KeyManager getKeyManager() {
         return game.getKeyManager();
     }
-    
-    public MouseManager getMouseManager(){
+
+    public MouseManager getMouseManager() {
         return game.getMouseManager();
     }
-    
+
     public Game getGame() {
         return game;
     }
@@ -59,6 +60,5 @@ public class Handler {
     public void setMap(Map map) {
         this.map = map;
     }
-    
-    
+
 }

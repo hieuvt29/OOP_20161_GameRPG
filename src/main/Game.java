@@ -97,7 +97,7 @@ public class Game implements Runnable {
 
         if (GameStatesManager.getCurrentState() != null) {
             GameStatesManager.getCurrentState().update();
-            
+
         }
     }
 
