@@ -13,24 +13,22 @@ import java.awt.image.BufferedImage;
  * @author LOREMSUM
  */
 public class Tile {
-    
+
     //THIS PART IS HANDLER - quickly way create essentially Tile object that we need
     public static Tile[] tiles = new Tile[256];
     public static Tile grassTile = new GrassTile(0);
-    public static Tile treeTile = new TreeTile(1);
     public static Tile waterTile = new WaterTile(2);
-    public static Tile gate = new Gate(50);
-    
-    
+    public static Tile gate = new GateTile(50);
+
     //THIS PART IS OUR CLASS
     private BufferedImage texture;
-    private final int id; 
+    private final int id;
     public static final int TILE_WIDTH = 64, TILE_HEIGHT = 64;
-    
-    public Tile(BufferedImage texture, int id){
+
+    public Tile(BufferedImage texture, int id) {
         this.texture = texture;
         this.id = id;
-        
+
         //Assign Tiles element
         tiles[id] = this;
     }
@@ -38,15 +36,17 @@ public class Tile {
     public int getId() {
         return id;
     }
-    
-    public void update(){
-        
+
+    public void update() {
+
     }
-    public void render(Graphics g, int x, int y){
-        g.drawImage(this.texture, x, y, TILE_WIDTH, TILE_HEIGHT, null );
-        
+
+    public void render(Graphics g, int x, int y) {
+        g.drawImage(this.texture, x, y, TILE_WIDTH, TILE_HEIGHT, null);
+
     }
-    public boolean isSolid(){
+
+    public boolean isSolid() {
         return false;
     }
 }

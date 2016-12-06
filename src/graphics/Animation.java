@@ -12,37 +12,38 @@ import java.awt.image.BufferedImage;
  * @author LOREMSUM
  */
 public class Animation {
+
     private int speed;
     private BufferedImage[] frames;
     private int index;
     private long lastTime;
     private long timer = 0;
-    
-    
-    public Animation(int speed, BufferedImage[] frames){
+
+    public Animation(int speed, BufferedImage[] frames) {
         this.speed = speed;
         this.frames = frames;
-        
+
         index = 0;
         timer = 0;
         lastTime = System.currentTimeMillis();
-        
+
     }
-    
-    public void update(){
+
+    public void update() {
         timer += System.currentTimeMillis() - lastTime;
         lastTime = System.currentTimeMillis();
-        
-        if(timer > speed){
+
+        if (timer > speed) {
             timer = 0;
-            index ++;
-            System.out.println("frame index: "+ index);
-            if(index >= frames.length){
+            index++;
+            System.out.println("Frame index: " + index);
+            if (index >= frames.length) {
                 index = 0;
             }
         }
     }
-    public BufferedImage getCurrentFrame(){
+
+    public BufferedImage getCurrentFrame() {
         return frames[index];
     }
 }

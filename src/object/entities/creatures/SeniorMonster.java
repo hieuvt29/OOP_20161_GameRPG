@@ -1,10 +1,10 @@
-package object.entities.creatures;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package object.entities.creatures;
+
 import graphics.Animation;
 import graphics.Assets;
 import java.awt.Graphics;
@@ -17,10 +17,9 @@ import object.entities.statics.StaticEntity;
 
 /**
  *
- * @author minhh
+ * @author Administrator
  */
-public class Monster extends Creature {
-    //Animation
+public class SeniorMonster extends Creature {
 
     private Animation[] walkAnims;
     private int direction; // 0- up, 1 - right, 2- down, 3 - left
@@ -28,11 +27,11 @@ public class Monster extends Creature {
     //Attack control
     private long lastAttackTimer, attackCoolDown = 200, attackTimer = 0;
 
-    public Monster(Handler handler, float x, float y) {
+    public SeniorMonster(Handler handler, float x, float y) {
         super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
 
         //Attack
-        attackAmount = 2;
+        attackAmount = 5;
 
         //Bounding rectangle
         bounds.x = 16;
@@ -41,14 +40,14 @@ public class Monster extends Creature {
         bounds.height = 32;
 
         //Animation
-        speed = 0.2f;
+        speed = 0.5f;
 
         walkAnims = new Animation[4];
 
-        walkAnims[0] = new Animation(100, Assets.monster_up);
-        walkAnims[1] = new Animation(100, Assets.monster_right);
-        walkAnims[2] = new Animation(100, Assets.monster_down);
-        walkAnims[3] = new Animation(100, Assets.monster_left);
+        walkAnims[0] = new Animation(100, Assets.senior_monster_up);
+        walkAnims[1] = new Animation(100, Assets.senior_monster_right);
+        walkAnims[2] = new Animation(100, Assets.senior_monster_down);
+        walkAnims[3] = new Animation(100, Assets.senior_monster_left);
 
         direction = 2;
 
@@ -58,22 +57,11 @@ public class Monster extends Creature {
     public void update() {
         float playerX = handler.getMap().getEntityManager().getPlayer().getX();
         float playerY = handler.getMap().getEntityManager().getPlayer().getY();
-//        newPosition[0] = handler.getMap().getEntityManager().getPlayer().getX();
-//        newPosition[1] = handler.getMap().getEntityManager().getPlayer().getY();
         if (Math.sqrt((playerX - x) * (playerX - x) + (playerY - y) * (playerY - y)) < 400) {
             chase(playerX, playerY);
             move();
             checkAttacks();
         }
-    }
-
-    @Override
-    public void render(Graphics g) {
-
-        g.drawImage(getCurrentPlayerFrame(walkAnims), (int) (x - handler.getGameCamera().getxOffset()),
-                (int) (y - handler.getGameCamera().getyOffset()), width, height, null);
-
-        renderHealth(g);
     }
 
     private BufferedImage getCurrentPlayerFrame(Animation[] anim) {
@@ -173,12 +161,12 @@ public class Monster extends Creature {
         handler.getMap().getEntityManager().setNumMonster(handler.getMap().getEntityManager().getNumMonster() - 1);
     }
 
-    //private float[] randomPosition() {
-    //    float x = (float) (Math.random() * handler.getMap().getWidth() + 1);
-    //    float y = (float) (Math.random() * handler.getMap().getHeight() + 1);
-    //    float[] res = new float[2];
-    //    res[0] = x;
-    //    res[1] = y;
-    //    return res;
-    //}
+    @Override
+    public void render(Graphics g) {
+
+        g.drawImage(getCurrentPlayerFrame(walkAnims), (int) (x - handler.getGameCamera().getxOffset()),
+                (int) (y - handler.getGameCamera().getyOffset()), width, height, null);
+
+        renderHealth(g);
+    }
 }

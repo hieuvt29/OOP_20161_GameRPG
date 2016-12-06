@@ -15,7 +15,7 @@ import java.awt.image.BufferedImage;
 public class RockItem extends Item {
 
     public RockItem(String name, int id) {
-        super(Assets.rock, name, id);
+        super(Assets.grass, name, id);
     }
 
     @Override

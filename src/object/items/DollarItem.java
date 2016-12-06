@@ -12,15 +12,15 @@ import java.awt.image.BufferedImage;
  *
  * @author user
  */
-public class GoldItem extends Item {
+public class DollarItem extends Item {
 
-    public GoldItem(String name, int id) {
+    public DollarItem(String name, int id) {
         super(Assets.dollarItem, name, id);
     }
 
     @Override
     public Item createNew(int x, int y) {
-        GoldItem item = new GoldItem(name, id);
+        DollarItem item = new DollarItem(name, id);
         item.setPosition(x, y);
         return item;
     }

@@ -69,7 +69,7 @@ public class Inventory {
             Iterator<Item> it = inventoryItems.iterator();
             while(it.hasNext()){
                 Item i = it.next();
-                if(i instanceof GoldItem && i.getCount() > 10){
+                if(i instanceof DollarItem && i.getCount() > 10){
                     i.setCount(i.getCount() - 10);
                     inventoryItems.add(Item.shieldItem);
                     break;
@@ -89,9 +89,10 @@ public class Inventory {
             return;
         }
         for (Item i : this.inventoryItems) {
+            
             if (i instanceof HPItem) {
                 i.render(g, 0, 0);
-            } else if (i instanceof GoldItem) {
+            } else if (i instanceof DollarItem) {
                 i.render(g, Item.ITEM_WIDTH , 0);
             }else if (i instanceof ShieldItem){
                 i.render(g, Item.ITEM_WIDTH * 2, 0);

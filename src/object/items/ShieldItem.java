@@ -18,7 +18,7 @@ public class ShieldItem extends Item {
     private int defenceAmount;
 
     public ShieldItem(String name, int id) {
-        super(Assets.ShieldItem, name, id);
+        super(Assets.shieldItem, name, id);
         defenceAmount = FullDefenceAmount;
     }
 
