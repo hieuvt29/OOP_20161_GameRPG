@@ -152,19 +152,19 @@ public class Monster extends Creature {
 
         if (xMove > 1) {
             xMove = speed;
-            walkAnims[0].update();
+            walkAnims[1].update();
         }
         if (xMove < -1) {
             xMove = -speed;
-            walkAnims[2].update();
+            walkAnims[3].update();
         }
         if (yMove > 1) {
             yMove = speed;
-            walkAnims[1].update();
+            walkAnims[2].update();
         }
         if (yMove < -1) {
             yMove = -speed;
-            walkAnims[3].update();
+            walkAnims[0].update();
         }
 
     }
@@ -174,12 +174,5 @@ public class Monster extends Creature {
         handler.getMap().getEntityManager().setNumMonster(handler.getMap().getEntityManager().getNumMonster() - 1);
     }
 
-    //private float[] randomPosition() {
-    //    float x = (float) (Math.random() * handler.getMap().getWidth() + 1);
-    //    float y = (float) (Math.random() * handler.getMap().getHeight() + 1);
-    //    float[] res = new float[2];
-    //    res[0] = x;
-    //    res[1] = y;
-    //    return res;
-    //}
+   
 }

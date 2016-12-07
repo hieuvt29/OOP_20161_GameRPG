@@ -15,6 +15,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.Iterator;
+import main.states.GameOverState;
 import main.states.MenuState;
 import main.states.PlayState;
 import object.items.Inventory;
@@ -45,8 +46,8 @@ public class Player extends Creature {
         super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
 
         //Attack
-        attackAmount = 10;
-        attackRange = 20;
+        attackAmount = 100;
+        attackRange = 200;
 
         //Bounding rectangle
         bounds.x = 32;
@@ -79,9 +80,7 @@ public class Player extends Creature {
         //Attack
         checkAttacks();
 
-        //Kiểm tra người chơi vào vùng chuyển tiếp giữa 2 map hoặc điểm kết thúc hay chưa
-        checkChangeMap();
-
+        
     }
 
     @Override
@@ -238,29 +237,11 @@ public class Player extends Creature {
         //end;
     }
 
-    private void checkChangeMap() {
-        if ((int) (this.x + this.width) / Tile.TILE_WIDTH == handler.getMap().getGateX()
-                && (int) (this.y + this.height) / Tile.TILE_HEIGHT == handler.getMap().getGateY()) {
-            PlayState ps = (PlayState) handler.getGame().getPlayState();
-            if (ps.getMapIndex() == 1) {
-                ps.setMapIndex(2);
-                System.out.println("Dang o map 2");
-            } else if (ps.getMapIndex() == 2) {
-                ps.setMapIndex(1);
-                System.out.println("Dang o map 1");
-            }
-        }
-        System.out.println("So luong monster:" + handler.getMap().getEntityManager().getNumMonster());
-        if (handler.getMap().getEntityManager().getNumMonster() == 0
-                && (int) (this.x + this.width) / Tile.TILE_WIDTH == handler.getMap().getEndX()
-                && (int) (this.y + this.height) / Tile.TILE_HEIGHT == handler.getMap().getEndY()) {
-            handler.getGame().setState(new MenuState(handler));
-        }
-    }
+   
 
     @Override
     public void die() {
-        System.exit(0);
+        handler.getGame().setState(new GameOverState(handler));
     }
 
     public int getDirection() {

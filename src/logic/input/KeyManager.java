@@ -17,7 +17,7 @@ public class KeyManager implements KeyListener {
     private boolean[] keys, justPressed, cantPress;
     public boolean up, down, left, right;
     public boolean hit;
-    public boolean useHPItem;
+
 
     //debug
     public boolean respawn;
@@ -35,15 +35,14 @@ public class KeyManager implements KeyListener {
 
         for(int i = 0; i< keys.length; i++){
             if(cantPress[i] && !keys[i]){
-            //cantPress[i] = true that means that value has already returned true for one update() frame
-            // so we can't return true anymore so we cant press this particular key
-            //!keys[i] means this key is no longer being pressed
-            // so they should be able to press it again and justPressed[i] should return true;
+            // cantPress[i] đã trả về giá trị đúng trong một lần gọi hàm update() gần nhất
+            // thì ta không cho phép nó trả về giá trị true lần thứ hai
+            // Khi mà nút đó đã được thả ra thì ta mới có thể cho giá trị cantPress = true một lần nữa.
                 cantPress[i] = false;
             }else if(justPressed[i]){
-            //that mean for one update() method we've already returned true that this key has been pressed 
-            // then we're going to set cantPress[i] = true - we don't want them to press it util they release the key  
-            // and it is no longer just been pressed 
+            // tức là justPressed[i] đã trả về giá trị true trong một lần gọi hàm update() gần nhất
+            // thì ta có thể gán cantPress[i] = true - chúng ta không muốn người chơi bấm nút đó cho đến khi họ nhả nút đó ra
+            // tức nó không còn là "vừa được bấm" nữa
                 cantPress[i] = true;
                 justPressed[i] = false;
             }
@@ -65,7 +64,6 @@ public class KeyManager implements KeyListener {
         left = keys[KeyEvent.VK_A];
         right = keys[KeyEvent.VK_D];
         hit = keys[KeyEvent.VK_SPACE];
-        useHPItem = keys[KeyEvent.VK_1];
 
         //debug
         respawn = keys[KeyEvent.VK_R];

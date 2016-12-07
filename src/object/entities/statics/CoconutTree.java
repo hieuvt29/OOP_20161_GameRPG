@@ -38,7 +38,7 @@ public class CoconutTree extends StaticEntity {
         g.drawImage(Assets.coconutTree, (int) (x - handler.getGameCamera().getxOffset()) - 40,
                 (int) (y - handler.getGameCamera().getyOffset()), width, height, null);
         renderHealth(g, Color.GREEN);
-        renderCollisionBounds(g);
+//        renderCollisionBounds(g);
 
     }
 

@@ -20,8 +20,8 @@ public class Tree extends StaticEntity {
 
     public Tree(Handler handler, float x, float y) {
         super(handler, x, y, Tile.TILE_WIDTH * 2, Tile.TILE_HEIGHT * 2);
-
-        bounds.x = 10;
+        
+        bounds.x = 19;
         bounds.y = 105;
         bounds.width = 30;
         bounds.height = 30;
@@ -37,7 +37,7 @@ public class Tree extends StaticEntity {
         g.drawImage(Assets.tree, (int) (x - handler.getGameCamera().getxOffset()) - 28,
                 (int) (y - handler.getGameCamera().getyOffset()), width, height, null);
         renderHealth(g, Color.GREEN);
-        renderCollisionBounds(g);
+//        renderCollisionBounds(g);
     }
 
     @Override

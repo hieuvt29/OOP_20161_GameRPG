@@ -17,6 +17,8 @@ import java.awt.Graphics;
 import static java.lang.Integer.parseInt;
 import static java.lang.Integer.parseInt;
 import java.util.ArrayList;
+import main.states.MenuState;
+import main.states.PlayState;
 import object.entities.creatures.Monster;
 import object.entities.creatures.SeniorMonster;
 import object.entities.statics.CoconutTree;
@@ -63,26 +65,25 @@ public class Map {
         entityManager.getPlayer().setX(spawnX * Tile.TILE_WIDTH);
         entityManager.getPlayer().setY(spawnY * Tile.TILE_HEIGHT);
 
-       
-        for(int i =0 ;i < entitiesCoordinate.size(); i++){
+        for (int i = 0; i < entitiesCoordinate.size(); i++) {
             ArrayList<Integer> arr = entitiesCoordinate.get(i);
-             // Thêm các đối tượng static
+            // Thêm các đối tượng static
             int id = arr.get(0);
-            int corX = arr.get(1)*Tile.TILE_WIDTH;
-            int corY = arr.get(2)*Tile.TILE_HEIGHT;
-            
-            if(id == 5){
+            int corX = arr.get(1) * Tile.TILE_WIDTH;
+            int corY = arr.get(2) * Tile.TILE_HEIGHT;
+
+            if (id == 5) {
                 this.entityManager.addEntity(new Tree(handler, corX, corY));
-            }else if(id == 6){
+            } else if (id == 6) {
                 this.entityManager.addEntity(new CoconutTree(handler, corX, corY));
-            }else if(id == 10){
+            } else if (id == 10) {
                 entityManager.addEntity(new Monster(handler, corX, corY));
                 entityManager.setNumMonster(entityManager.getNumMonster() + 1);
-            }else if (id == 11){
+            } else if (id == 11) {
                 entityManager.addEntity(new SeniorMonster(handler, corX, corY));
                 entityManager.setNumMonster(entityManager.getNumMonster() + 1);
             }
-            
+
         }
         //init itemManager
         itemManager = new ItemManager(handler);
@@ -114,7 +115,7 @@ public class Map {
                     entityCor.add(y);
                     entitiesCoordinate.add(entityCor);
                 }
-                
+
             }
         }
 
@@ -123,6 +124,8 @@ public class Map {
     public void update() {
         entityManager.update();
         itemManager.update();
+        //Kiểm tra người chơi đi vào vùng chuyển map hoặc kết thúc
+        checkChangeMap();
     }
 
     public void render(Graphics g) {
@@ -168,6 +171,27 @@ public class Map {
             return Tile.grassTile;
         } else {
             return t;
+        }
+    }
+
+    private void checkChangeMap() {
+        Player player = this.getEntityManager().getPlayer();
+        if ((int) (player.getX() + player.getWidth()) / Tile.TILE_WIDTH == this.getGateX()
+                && (int) (player.getY() + player.getHeight()) / Tile.TILE_HEIGHT == this.getGateY()) {
+            PlayState ps = (PlayState) handler.getGame().getPlayState();
+            if (ps.getMapIndex() == 1) {
+                ps.setMapIndex(2);
+                System.out.println("Dang o map 2");
+            } else if (ps.getMapIndex() == 2) {
+                ps.setMapIndex(1);
+                System.out.println("Dang o map 1");
+            }
+        }
+        System.out.println("So luong monster:" + this.getEntityManager().getNumMonster());
+        if (this.getEntityManager().getNumMonster() == 0
+                && (int) (player.getX() + player.getWidth()) / Tile.TILE_WIDTH == this.getEndX()
+                && (int) (player.getY() + player.getHeight()) / Tile.TILE_HEIGHT == this.getEndY()) {
+            handler.getGame().setState(new MenuState(handler));
         }
     }
 

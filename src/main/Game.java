@@ -163,7 +163,6 @@ public class Game implements Runnable {
                 delta--;
                 //debug
                 ticks++;
-
                 //end;
             }
             //END;
