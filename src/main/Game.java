@@ -172,11 +172,6 @@ public class Game implements Runnable {
                 timer = 0;
                 ticks = 0;
             }
-
-            //end;
-            update();
-            render();
-
         }
         stop();
     }
