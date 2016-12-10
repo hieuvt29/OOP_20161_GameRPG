@@ -17,8 +17,11 @@ import java.awt.Graphics;
 import static java.lang.Integer.parseInt;
 import static java.lang.Integer.parseInt;
 import java.util.ArrayList;
+import main.states.GameStatesManager;
 import main.states.MenuState;
 import main.states.PlayState;
+import main.states.State;
+import main.states.WinState;
 import object.entities.creatures.Monster;
 import object.entities.creatures.SeniorMonster;
 import object.entities.statics.CoconutTree;
@@ -40,7 +43,7 @@ public class Map {
     private int[][] map;
 
     private Handler handler;
-
+    private State winstate;
     //Entities
     private EntityManager entityManager;
 
@@ -188,10 +191,11 @@ public class Map {
             }
         }
         System.out.println("So luong monster:" + this.getEntityManager().getNumMonster());
-        if (this.getEntityManager().getNumMonster() == 0
-                && (int) (player.getX() + player.getWidth()) / Tile.TILE_WIDTH == this.getEndX()
+        if (//this.getEntityManager().getNumMonster() == 0
+                 (int) (player.getX() + player.getWidth()) / Tile.TILE_WIDTH == this.getEndX()
                 && (int) (player.getY() + player.getHeight()) / Tile.TILE_HEIGHT == this.getEndY()) {
-            handler.getGame().setState(new MenuState(handler));
+            winstate = new WinState(handler);
+             GameStatesManager.setCurrentState(winstate);
         }
     }
 

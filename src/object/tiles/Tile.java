@@ -19,6 +19,7 @@ public class Tile {
     public static Tile grassTile = new GrassTile(0);
     public static Tile waterTile = new WaterTile(2);
     public static Tile gate = new GateTile(50);
+    public static Tile flagWin = new FlagWinTile(100);
 
     //THIS PART IS OUR CLASS
     private BufferedImage texture;

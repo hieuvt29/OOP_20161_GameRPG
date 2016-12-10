@@ -6,19 +6,16 @@
 package object.tiles;
 
 import graphics.Assets;
+import java.awt.image.BufferedImage;
 
 /**
  *
- * @author LOREMSUM
+ * @author Administrator
  */
-public class TreeTile extends Tile{
+public class FlagWinTile extends Tile{
     
-    public TreeTile(int id){
-        super(Assets.tree, id);
+    public FlagWinTile(int id) {
+        super(Assets.flagWin, id);
     }
     
-    @Override
-    public boolean isSolid(){
-        return true;
-    }
 }

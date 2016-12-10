@@ -21,9 +21,9 @@ public class Assets {
 
     public static BufferedImage[] monster_up, monster_down, monster_left, monster_right;
     public static BufferedImage[] senior_monster_up, senior_monster_down, senior_monster_left, senior_monster_right;
-    public static BufferedImage[] backgroundmenu, btnStart, btnQuit, btnInstructions, btnNewgame, btnQuitGame, bggameover;
+    public static BufferedImage[] backgroundmenu, btnStart, btnQuit, btnInstructions, btnNewgame, btnQuitGame, bggameover,bgwin;
 
-    public static BufferedImage grass, tree, coconutTree, water, dollarItem, door, shieldItem, HPItem, swordItem;
+    public static BufferedImage grass, tree, coconutTree, water, dollarItem, door, shieldItem, HPItem, swordItem, flagWin;
 
     private static final int WIDTH = 64, HEIGHT = 64;
 
@@ -154,7 +154,12 @@ public class Assets {
         //swordItem
         Sheet swordItem_sheet = new Sheet(ImagesLoader.loadImage("/res/textures/sword.png"));
         swordItem = swordItem_sheet.crop(0,0, WIDTH, HEIGHT);
+        
+        //flagWin
+        Sheet flagWin_sheet = new Sheet(ImagesLoader.loadImage("/res/textures/Flag.png"));
+        flagWin = flagWin_sheet.crop(0, 0, 57, 62);
 
+        //menu
         backgroundmenu = new BufferedImage[2];
         btnStart = new BufferedImage[2];
         btnQuit = new BufferedImage[2];
@@ -162,6 +167,7 @@ public class Assets {
         btnQuitGame = new BufferedImage[2];
         btnInstructions = new BufferedImage[2];
         bggameover = new BufferedImage[2];
+        bgwin = new BufferedImage[2];
         btnStart[0] = ImagesLoader.loadImage("/res/textures/btPlay1.png");
         btnStart[1] = ImagesLoader.loadImage("/res/textures/btPlay2.png");
         btnQuit[0] = ImagesLoader.loadImage("/res/textures/btnQuit.png");
@@ -176,6 +182,10 @@ public class Assets {
         btnQuitGame[1] = ImagesLoader.loadImage("/res/textures/quitgame.png");
         bggameover[0] = ImagesLoader.loadImage("/res/textures/bggameover.jpg");
         bggameover[1] = ImagesLoader.loadImage("/res/textures/bggameover.jpg");
+        bgwin[0] = ImagesLoader.loadImage("/res/textures/bgyouwin.jpg");
+        bgwin[1] = ImagesLoader.loadImage("/res/textures/bgyouwin.jpg");
+        
+        
     }
 
 }
