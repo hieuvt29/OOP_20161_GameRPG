@@ -17,31 +17,32 @@ import main.Handler;
  *
  * @author Dell
  */
-public class WinState extends State{
+public class WinState extends State {
+
     private UIManager uimanager;
-    private State playState;
+    private State menuState;
 
     public WinState(Handler handler) {
         super(handler);
         uimanager = new UIManager(handler);
         handler.getMouseManager().setUiManager(uimanager);
-        
-         uimanager.addObject(new UIImageButton(0, 0, 640, 480, Assets.bgwin, new ClickListener() {
+
+        uimanager.addObject(new UIImageButton(0, 0, 640, 480, Assets.bgwin, new ClickListener() {
             @Override
             public void onClick() {
-                
+
             }
         }));
-          uimanager.addObject(new UIImageButton(250, 320, 140, 50, Assets.btnNewgame, new ClickListener() {
-            
+        uimanager.addObject(new UIImageButton(250, 320, 140, 50, Assets.btnNewgame, new ClickListener() {
+
             @Override
             public void onClick() {
-                  playState = new PlayState(handler); 
-                GameStatesManager.setCurrentState(playState);
-       
+                menuState = new MenuState(handler);
+                GameStatesManager.setCurrentState(menuState);
+
             }
         }));
-          uimanager.addObject(new UIImageButton(250, 400, 140,50, Assets.btnQuitGame, new ClickListener() {
+        uimanager.addObject(new UIImageButton(250, 400, 140, 50, Assets.btnQuitGame, new ClickListener() {
             @Override
             public void onClick() {
                 System.exit(0);
@@ -51,7 +52,7 @@ public class WinState extends State{
 
     @Override
     public void update() {
-            uimanager.update();
+        uimanager.update();
     }
 
     @Override
@@ -63,5 +64,5 @@ public class WinState extends State{
         uimanager.render(g);
 
     }
-    
+
 }

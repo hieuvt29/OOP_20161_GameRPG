@@ -39,7 +39,7 @@ public class MenuState extends State {
             @Override
             public void onClick() {
                 handler.getMouseManager().setUiManager(null);
-                handler.getGame().setState(handler.getGame().getPlayState());
+                handler.getGame().setState(new PlayState(handler));
             }
         }));
         uiManager.addObject(new UIImageButton(250, 180, 120, 70, Assets.btnInstructions, new ClickListener() {

@@ -42,7 +42,7 @@ public class Monster extends Creature {
         bounds.height = 32;
 
         //Animation
-        speed = 0.2f;
+        speed = 0.5f;
 
         walkAnims = new Animation[4];
 

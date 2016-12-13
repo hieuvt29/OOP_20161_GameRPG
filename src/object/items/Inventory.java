@@ -129,7 +129,7 @@ public class Inventory {
 
     private void useDollarItem() {
         // NẾu bấm 2, kiểm tra số lượng DollarItem,
-        //Nếu lớn hơn hoặc bằng 10 thì đổi 10 Dollar bằng 1 giáo
+        //Nếu lớn hơn hoặc bằng 10 thì đổi 10 Dollar bằng 1 kiếm
         //Nếu lớn hơn hoặc bằng 5 thì đổi 5 Dollar bằng 1 khiên
         Iterator<Item> it = inventoryItems.iterator();
         while (it.hasNext()) {
@@ -162,6 +162,7 @@ public class Inventory {
 
                 Player player = handler.getMap().getEntityManager().getPlayer();
                 player.setAttackRange(50);
+                player.setAttackAmount(20);
                 player.setCurrentAnimSet(Animation.animSetSword);
 //                i.setCount(i.getCount() - 1);
 //                if (i.getCount() == 0) {
@@ -176,6 +177,7 @@ public class Inventory {
     private void useSpearItem() {
         Player player = handler.getMap().getEntityManager().getPlayer();
         player.setAttackRange(20);
+        player.setAttackAmount(10);
         player.setCurrentAnimSet(Animation.animSetSpear);
     }
 }

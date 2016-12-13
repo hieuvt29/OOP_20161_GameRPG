@@ -181,7 +181,7 @@ public class Map {
         Player player = this.getEntityManager().getPlayer();
         if ((int) (player.getX() + player.getWidth()) / Tile.TILE_WIDTH == this.getGateX()
                 && (int) (player.getY() + player.getHeight()) / Tile.TILE_HEIGHT == this.getGateY()) {
-            PlayState ps = (PlayState) handler.getGame().getPlayState();
+            PlayState ps = (PlayState) GameStatesManager.getCurrentState();
             if (ps.getMapIndex() == 1) {
                 ps.setMapIndex(2);
                 System.out.println("Dang o map 2");
@@ -191,8 +191,8 @@ public class Map {
             }
         }
         System.out.println("So luong monster:" + this.getEntityManager().getNumMonster());
-        if (//this.getEntityManager().getNumMonster() == 0
-                 (int) (player.getX() + player.getWidth()) / Tile.TILE_WIDTH == this.getEndX()
+        if (this.getEntityManager().getNumMonster() == 0
+                && (int) (player.getX() + player.getWidth()) / Tile.TILE_WIDTH == this.getEndX()
                 && (int) (player.getY() + player.getHeight()) / Tile.TILE_HEIGHT == this.getEndY()) {
             winstate = new WinState(handler);
              GameStatesManager.setCurrentState(winstate);

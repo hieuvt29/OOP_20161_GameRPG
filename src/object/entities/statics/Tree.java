@@ -22,7 +22,7 @@ public class Tree extends StaticEntity {
         super(handler, x, y, Tile.TILE_WIDTH * 2, Tile.TILE_HEIGHT * 2);
         
         bounds.x = 19;
-        bounds.y = 105;
+        bounds.y = 90;
         bounds.width = 30;
         bounds.height = 30;
     }

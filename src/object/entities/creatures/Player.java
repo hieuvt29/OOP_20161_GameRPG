@@ -46,11 +46,11 @@ public class Player extends Creature {
         super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
 
         //Attack
-        attackAmount = 100;
-        attackRange = 200;
+        attackAmount = 10;
+        attackRange = 20;
 
         //Bounding rectangle
-        bounds.x = 32;
+        bounds.x = 16;
         bounds.y = 32;
         bounds.width = 32;
         bounds.height = 32;
@@ -92,6 +92,7 @@ public class Player extends Creature {
         //inventory
         inventory.render(g);
         renderHealth(g, Color.RED);
+//        renderCollisionBounds(g);
 
     }
 

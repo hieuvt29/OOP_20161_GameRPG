@@ -41,7 +41,7 @@ public class SeniorMonster extends Creature {
         bounds.height = 32;
 
         //Animation
-        speed = 0.5f;
+        speed = 0.8f;
 
         walkAnims = new Animation[4];
 
