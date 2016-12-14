@@ -19,10 +19,10 @@ public class KeyManager implements KeyListener {
     public boolean hit;
 
 
-    //debug
-    public boolean respawn;
-    public boolean quit;
-    //end;
+//    //debug
+//    public boolean respawn;
+//    public boolean quit;
+//    //end;
 
     public KeyManager() {
 
@@ -65,10 +65,10 @@ public class KeyManager implements KeyListener {
         right = keys[KeyEvent.VK_D];
         hit = keys[KeyEvent.VK_SPACE];
 
-        //debug
-        respawn = keys[KeyEvent.VK_R];
-        quit = keys[KeyEvent.VK_Q];
-        //end;
+//        //debug
+//        respawn = keys[KeyEvent.VK_R];
+//        quit = keys[KeyEvent.VK_Q];
+//        //end;
     }
 
     @Override

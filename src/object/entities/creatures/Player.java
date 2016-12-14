@@ -227,15 +227,15 @@ public class Player extends Creature {
             currentAnimSet[playerState][1].update();
         }
 
-        //debug
-        if (handler.getKeyManager().respawn) {
-            x = width / 2;
-            y = width / 2;
-        }
-        if (handler.getKeyManager().quit) {
-            System.exit(0);
-        }
-        //end;
+//        //debug
+//        if (handler.getKeyManager().respawn) {
+//            x = width / 2;
+//            y = width / 2;
+//        }
+//        if (handler.getKeyManager().quit) {
+//            System.exit(0);
+//        }
+//        //end;
     }
 
    
