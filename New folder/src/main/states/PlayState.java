@@ -33,8 +33,8 @@ public class PlayState extends State {
         this.player = new Player(handler, 0, 0);
         
         //Khởi tạo bản đồ
-        map1 = new Map(handler, player, "./src/res/textures/maps/map1.txt");
-        map2 = new Map(handler, player, "./src/res/textures/maps/map2.txt");
+        map1 = new Map(handler, player, ".\\src\\res\\textures\\maps\\map1.txt");
+        map2 = new Map(handler, player, ".\\src\\res\\textures\\maps\\map2.txt");
         mapIndex = 1;
         checkMap();
 
